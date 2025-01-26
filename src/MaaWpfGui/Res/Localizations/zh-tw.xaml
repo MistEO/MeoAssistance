@@ -144,6 +144,7 @@
     <system:String x:Key="RoguelikeCollapseListTip">用英文分號「;」隔開，留白將使用默認列表。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「開局幹員」使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
+    <system:String x:Key="RoguelikeChooseBeautifulWish">相遇选择美愿（通关一次以解锁美愿）</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲「停止」動作</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">在第五層 BOSS 前暫停</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">滿級後自動停止</system:String>

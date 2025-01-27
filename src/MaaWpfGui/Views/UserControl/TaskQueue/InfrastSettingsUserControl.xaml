@@ -38,6 +38,34 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
                 <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>
+            <CheckBox Margin="0,10" IsChecked="{Binding PrioritizeSendingClue}">
+                <controls:TextBlock Text="{DynamicResource PrioritizeSendingClue}" TextWrapping="Wrap" />
+            </CheckBox>
+            <hc:NumericUpDown
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource AmountOfClueToSend}"
+                Maximum="7"
+                Minimum="0"
+                Style="{StaticResource NumericUpDownExtend}"
+                Value="{Binding AmountOfClueToSend}" />
+            <CheckBox Margin="0,10" IsChecked="{Binding SendClueToOCR}">
+                <controls:TextBlock Text="{DynamicResource SendClueToOCR}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding OnlySendClueToOCR}"
+                Visibility="{c:Binding 'SendClueToOCR'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource OnlySendClueToOCR}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <TextBox
+                Margin="0,10"
+                hc:InfoElement.Title="{DynamicResource SendClueList}"
+                Visibility="{c:Binding 'SendClueToOCR'}"
+                Style="{StaticResource TextBoxExtend}"
+                Text="{Binding SendClueList}" />
             <CheckBox Margin="0,10" IsChecked="{Binding CustomInfrastEnabled}">
                 <controls:TextBlock Text="{DynamicResource CustomInfrastEnabled}" TextWrapping="Wrap" />
             </CheckBox>

@@ -167,7 +167,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
             }
         }
     }
-    if (theme == "Sarkaz") {
+    if (theme == RoguelikeTheme::Sarkaz) {
         // 刷等级选择美愿
         if (params.get("choose_beautiful_wish", false)) {
             RoguelikeStageEncounter.set_event(theme, mode, "相遇", 3, 4);

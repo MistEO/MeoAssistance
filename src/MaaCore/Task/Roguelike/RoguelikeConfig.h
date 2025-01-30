@@ -43,6 +43,16 @@ struct RoguelikeOper
 struct RoguelikeStatus
 {
 public:
+    RoguelikeStatus() { opers.reserve(formation_upper_limit); };
+
+    RoguelikeStatus(const RoguelikeStatus& value)
+    {
+        opers.reserve(value.opers.size() / 2);
+        collections.reserve(value.collections.size() / 2);
+        foldartal_list.reserve(value.foldartal_list.size() / 2);
+    };
+
+public:
     int hope = 0;                                         // 当前希望
     int hp = 0;                                           // 当前生命值
     int floor = 0;                                        // 当前到达层数

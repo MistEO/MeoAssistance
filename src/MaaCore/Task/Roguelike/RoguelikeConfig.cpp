@@ -118,7 +118,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
 
 void asst::RoguelikeConfig::clear()
 {
-    m_status = RoguelikeStatus();
+    m_status = RoguelikeStatus(m_status);
     // ------------------ 通用参数 ------------------
     m_trader_no_longer_buy = false;
     m_core_char = std::string();

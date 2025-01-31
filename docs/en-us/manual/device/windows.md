@@ -55,7 +55,7 @@ const partiallySupport = shuffleArray([
     {
         name: 'MuMu Emulator 6',
         link: 'https://mumu.163.com/update/win/',
-        note: 'Support has been dropped since MAA v5.1.0 and NetEase has stopped maintaining it on 15-08-2023.\n\n- No longer support auto-detect connection, need to use generic connection configuration and manually configure adb path and connection address.\n- Need to run `Forced Replacement of ADB` in `Settings` - `Connection` to use efficient touch modes such as Minitouch, MaaTouch.\n- You need to run MAA with administrator privileges to use the "Exit Emulator When Done" function.\n- MuMu 6 default resolution is not supported, you need to change it to `1280x720`, `1920x1080`, `2560x1440` and other 16:9 ratio.\n- MuMu 6 multi-open uses the same adb port, so it can\'t support multi-open MuMu 6.',
+        note: 'Support has been dropped since MAA v5.1.0 and NetEase has stopped maintaining it on 15-08-2023.\n\n- No longer support auto-detect connection, need to use generic connection configuration and manually configure adb path and connection address.\n- Need to run `Forced Replacement of ADB` in `Settings` - `Connection` to use efficient touch modes such as Minitouch, MaaTouch.\n- You need to run MAA with administrator privileges to use the "Exit Emulator When Done" function.\n- MuMu 6 default resolution is not supported, you need to change it to `1280x720`, `1920x1080` and other 16:9 ratio.\n- MuMu 6 multi-open uses the same adb port, so it can\'t support multi-open MuMu 6.',
     },
     {
         name: 'Windows Subsystem for Android™️',

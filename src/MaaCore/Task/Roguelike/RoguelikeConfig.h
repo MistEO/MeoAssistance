@@ -42,18 +42,6 @@ struct RoguelikeOper
     int level = 0; // 干员等级
 };
 
-struct RoguelikeStartSelect // 刷开局模式下凹开局奖励选择
-{
-    bool hot_water = false; // 热水壶
-    bool shield = false;    // 盾；傀影没盾，是生命
-    bool ingot = false;     // 源石锭
-    bool hope = false;      // 希望
-    bool random = false;    // 随机奖励
-    bool key = false;       // 钥匙
-    bool dice = false;      // 骰子
-    bool ideas = false;     // 构想
-};
-
 class RoguelikeConfig
 {
 public:
@@ -101,10 +89,6 @@ public:
 
     bool get_run_for_collectible() const { return m_run_for_collectible; }
 
-    void set_start_select(const RoguelikeStartSelect& start_select) { m_start_select = start_select; }
-
-    const auto& get_start_select() const { return m_start_select; }
-
     // ------------------ 投资模式 ------------------
     void set_invest_with_more_score(bool value) { m_invest_with_more_score = value; }
 
@@ -124,8 +108,6 @@ private:
     bool m_start_with_elite_two = false;      // 在刷开局模式下凹开局干员精二直升
     bool m_only_start_with_elite_two = false; // 只凹开局干员精二直升且不进行作战
     bool m_run_for_collectible = false;       // 用于 RoguelikeMode::Collectible，判断是否正在烧水
-
-    RoguelikeStartSelect m_start_select;      // 开局选择
 
     // ------------------ 投资模式 ------------------
     bool m_invest_with_more_score = false; // 投资时招募、购物刷分

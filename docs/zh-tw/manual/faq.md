@@ -21,7 +21,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 或者手動下載並安裝以下<u>**兩個**</u>運行庫來解決問題。
 
 - [Visual C++ 可再發行程序包](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-- [.NET 桌面運行時 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)
+- [.NET 桌面運行時 8](https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 

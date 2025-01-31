@@ -21,7 +21,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 or manually download and install the following <u>**two**</u> runtime libraries to resolve the issue.
 
 - [Visual C++ Redistributable x64](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-- [.NET Desktop Runtime 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)
+- [.NET Desktop Runtime 8](https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 

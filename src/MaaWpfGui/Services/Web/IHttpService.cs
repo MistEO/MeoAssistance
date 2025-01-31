@@ -53,8 +53,9 @@ namespace MaaWpfGui.Services.Web
         /// <param name="uri">Target Uri</param>
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
         /// <param name="httpCompletionOption">The HTTP completion option</param>
+        /// <param name="logUri">Whether to log uri</param>
         /// <returns><see cref="HttpRequestMessage"/> object</returns>
-        Task<HttpResponseMessage?> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead);
+        Task<HttpResponseMessage?> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead, bool logUri = true);
 
         /// <summary>
         /// Send HTTP POST request and a string response

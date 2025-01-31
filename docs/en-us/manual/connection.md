@@ -173,7 +173,7 @@ Only Chinese or Arknights Edition MuMu 12 V4.0.0 and later versions are supporte
 
 ### LD Screenshot Enhanced Mode
 
-Only Chinese LD Player 9 V9.0.78 and later versions are supported. Arknights Edition, Global Edition are not supported at this time.
+Only Chinese or Global LD Player 9 V9.1.32 and later versions are supported. <!-- Chinese V9.0.78 -->
 
 1. Settings → Connection Settings, enable `Enable LD's screenshot enhancement mode`. MAA will attempt to automatically fill in the exec path through the registry when the switch is checked.
 

@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:constants="clr-namespace:MaaWpfGui.Constants"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
@@ -72,6 +73,37 @@
                         ItemsSource="{Binding VersionTypeList}"
                         SelectedValue="{Binding VersionType}"
                         SelectedValuePath="Value" />
+                    <StackPanel>
+                        <hc:ComboBox
+                            Width="150"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            hc:TitleElement.Title="{DynamicResource ResourceUpdateSource}"
+                            DisplayMemberPath="Display"
+                            ItemsSource="{Binding ResourceUpdateSourceList}"
+                            SelectedValue="{Binding ResourceUpdateSource}"
+                            SelectedValuePath="Value" />
+                        <StackPanel Visibility="{c:Binding 'ResourceUpdateSource == &quot;MirrorChyan&quot;'}">
+                            <hc:PasswordBox
+                                Width="150"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                hc:TitleElement.Title="CDK"
+                                IsSafeEnabled="False"
+                                ShowEyeButton="True"
+                                UnsafePassword="{Binding MirrorChyanCdk}" />
+                            <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Hyperlink
+                                    Cursor="Hand"
+                                    NavigateUri="{Binding Source={x:Static constants:MaaUrls.MirrorChyanWebsite}}"
+                                    TextDecorations="None">
+                                    <TextBlock Text="{DynamicResource MirrorChyan}" />
+                                </Hyperlink>
+                            </controls:TextBlock>
+                        </StackPanel>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
             <StackPanel

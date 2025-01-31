@@ -33,7 +33,7 @@ icon: ri:guide-fill
 
 6. Correctly set the emulator resolution
 
-    The emulator resolution should be `16:9` ratio, with a minimum of `1280x720`; for YostarEN, the only supported resolution is `1920x1080`.
+    The emulator resolution should be `1280x720` or `1920x1080` in landscape mode; for YostarEN, the only supported resolution is `1920x1080`.
 
 ## Initial
 

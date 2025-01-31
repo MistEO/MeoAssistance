@@ -204,6 +204,7 @@ GPU サポートが不要な場合、この DLL ファイルを安全に削除�
 ## 広告
 
 ユーザー研究グループQQグループ：[QQグループ](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+Discord サーバー: [Discord 招待リンク](https://discord.gg/23DfZ9uA4V)  
 ユーザー研究グループTGグループ：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自動作戦JSON作業シェア：[prts.plus](https://prts.plus)  
 Bilibili ライブ配信: [MrEO ライブ配信](https://live.bilibili.com/2808861) コーディング & [MAA-Official ライブ配信](https://live.bilibili.com/27548877) ゲーム/雑談  

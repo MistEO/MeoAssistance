@@ -26,6 +26,7 @@ using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using Newtonsoft.Json;
@@ -464,6 +465,22 @@ public class VersionUpdateViewModel : Screen
             return CheckUpdateRetT.OnlyGameResourceUpdated;
         }
         */
+
+        // 可以用 MirrorChyan 资源更新了喵
+        switch (SettingsViewModel.VersionUpdateSettings.ResourceUpdateSource)
+        {
+            case "MirrorChyan":
+                if (!string.IsNullOrEmpty(SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk))
+                {
+                    if (await ResourceUpdater.UpdateFromMirrorChyanAsync())
+                    {
+                        SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
+                        return CheckUpdateRetT.OnlyGameResourceUpdated;
+                    }
+                }
+
+                break;
+        }
 
         SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = false;
         return ret;

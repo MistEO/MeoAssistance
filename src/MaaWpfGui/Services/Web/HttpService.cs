@@ -131,7 +131,7 @@ namespace MaaWpfGui.Services.Web
             return await response.Content.ReadAsStreamAsync();
         }
 
-        public async Task<HttpResponseMessage?> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead)
+        public async Task<HttpResponseMessage?> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead, bool logUri = true)
         {
             try
             {
@@ -146,7 +146,7 @@ namespace MaaWpfGui.Services.Web
                 }
 
                 var response = await _client.SendAsync(request, httpCompletionOption);
-                response.Log();
+                response.Log(logUri);
 
                 return response;
             }

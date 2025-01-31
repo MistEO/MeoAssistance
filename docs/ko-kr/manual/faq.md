@@ -21,7 +21,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 아래<u>**두 개**</u>의 실행 라이브러리를 수동으로 다운로드하여 설치하여 문제를 해결하세요.
 
 - [Visual C++ 재배포 가능 패키지](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-- [.NET 데스크톱 런타임 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)
+- [.NET 데스크톱 런타임 8](https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 

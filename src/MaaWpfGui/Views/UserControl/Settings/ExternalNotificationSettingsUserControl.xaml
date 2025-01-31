@@ -63,13 +63,15 @@
             Orientation="Vertical"
             Visibility="{c:Binding ServerChanEnabled}">
             <hc:Divider Content="Server Chan" />
-            <hc:TextBox
+            <hc:PasswordBox
                 x:Name="ServerChanSendKey"
                 Width="400"
                 Height="30"
                 Margin="10"
                 hc:InfoElement.Title="{DynamicResource ExternalNotificationServerChanSendKey}"
-                Text="{c:Binding ServerChanSendKey}" />
+                IsSafeEnabled="False"
+                ShowEyeButton="True"
+                UnsafePassword="{c:Binding ServerChanSendKey}" />
         </StackPanel>
 
         <StackPanel
@@ -77,13 +79,15 @@
             Orientation="Vertical"
             Visibility="{c:Binding TelegramEnabled}">
             <hc:Divider Content="Telegram bot" />
-            <hc:TextBox
+            <hc:PasswordBox
                 x:Name="TelegramBotToken"
                 Width="400"
                 Height="30"
                 Margin="10"
                 hc:InfoElement.Title="{DynamicResource ExternalNotificationTelegramBotToken}"
-                Text="{c:Binding TelegramBotToken}" />
+                IsSafeEnabled="False"
+                ShowEyeButton="True"
+                UnsafePassword="{c:Binding TelegramBotToken}" />
             <hc:TextBox
                 x:Name="TelegramChatId"
                 Width="400"
@@ -98,13 +102,15 @@
             Orientation="Vertical"
             Visibility="{c:Binding DiscordEnabled}">
             <hc:Divider Content="Discord" />
-            <hc:TextBox
+            <hc:PasswordBox
                 x:Name="DiscordBotToken"
                 Width="400"
                 Height="30"
                 Margin="10"
                 hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordBotToken}"
-                Text="{c:Binding DiscordBotToken}" />
+                IsSafeEnabled="False"
+                ShowEyeButton="True"
+                UnsafePassword="{c:Binding DiscordBotToken}" />
             <hc:TextBox
                 x:Name="DiscordUserId"
                 Width="400"
@@ -119,13 +125,15 @@
             Orientation="Vertical"
             Visibility="{c:Binding DiscordWebhookEnabled}">
             <hc:Divider Content="Discord WebHook" />
-            <hc:TextBox
+            <hc:PasswordBox
                 x:Name="DiscordWebHookUrl"
                 Width="400"
                 Height="30"
                 Margin="10"
                 hc:InfoElement.Title="{DynamicResource ExternalNotificationDiscordWebhookUrl}"
-                Text="{c:Binding DiscordWebhookUrl}" />
+                IsSafeEnabled="False"
+                ShowEyeButton="True"
+                UnsafePassword="{c:Binding DiscordWebhookUrl}" />
         </StackPanel>
 
         <StackPanel
@@ -220,15 +228,18 @@
                     Text="{DynamicResource ExternalNotificationSmtpPassword}"
                     TextWrapping="Wrap"
                     Visibility="{c:Binding SmtpRequireAuthentication}" />
-                <TextBox
+                <hc:PasswordBox
                     x:Name="SmtpPassword"
                     Grid.Row="2"
                     Grid.Column="3"
                     Width="150"
                     Height="30"
                     Margin="10"
+                    hc:InfoElement.TitleWidth="0"
                     IsEnabled="{c:Binding SmtpRequireAuthentication}"
-                    Text="{c:Binding SmtpPassword}"
+                    IsSafeEnabled="False"
+                    ShowEyeButton="True"
+                    UnsafePassword="{c:Binding SmtpPassword}"
                     Visibility="{c:Binding SmtpRequireAuthentication}" />
 
                 <controls:TextBlock
@@ -277,13 +288,15 @@
                 Margin="10"
                 hc:InfoElement.Title="{DynamicResource ExternalNotificationBarkServer}"
                 Text="{c:Binding BarkServer}" />
-            <hc:TextBox
+            <hc:PasswordBox
                 x:Name="BarkSendKey"
                 Width="400"
                 Height="30"
                 Margin="10"
                 hc:InfoElement.Title="{DynamicResource ExternalNotificationBarkSendKey}"
-                Text="{c:Binding BarkSendKey}" />
+                IsSafeEnabled="False"
+                ShowEyeButton="True"
+                UnsafePassword="{c:Binding BarkSendKey}" />
         </StackPanel>
 
         <StackPanel
@@ -330,13 +343,16 @@
                     Block.TextAlignment="Center"
                     Text="{DynamicResource ExternalNotificationQmsgKey}"
                     TextWrapping="Wrap" />
-                <TextBox
+                <hc:PasswordBox
                     x:Name="QmsgKey"
                     Grid.Row="0"
                     Grid.Column="3"
                     Height="30"
                     Margin="10"
-                    Text="{c:Binding QmsgKey}" />
+                    hc:InfoElement.TitleWidth="0"
+                    IsSafeEnabled="False"
+                    ShowEyeButton="True"
+                    UnsafePassword="{c:Binding QmsgKey}" />
 
                 <controls:TextBlock
                     Grid.Row="1"

@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Models;
@@ -98,14 +99,36 @@ namespace MaaWpfGui.Helper
 
             try
             {
-                var bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.UriSource = new(imagePath, UriKind.RelativeOrAbsolute);
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.EndInit();
+                var bitmapImage = new BitmapImage(new(imagePath, UriKind.RelativeOrAbsolute));
 
-                bitmap.Freeze();
-                return bitmap;
+                var stride = bitmapImage.PixelWidth * ((bitmapImage.Format.BitsPerPixel + 7) / 8);
+                var pixelData = new byte[stride * bitmapImage.PixelHeight];
+                bitmapImage.CopyPixels(pixelData, stride, 0);
+
+                // 把黑边变成透明（其实是所有的黑色都变成透明了x
+                for (int i = 0; i < pixelData.Length; i += 4)
+                {
+                    if (pixelData[i] == 0 && pixelData[i + 1] == 0 && pixelData[i + 2] == 0)
+                    {
+                        pixelData[i + 3] = 0;
+                    }
+                }
+
+                // 不知道为啥 WriteableBitmap(bitmapImage); 得到的图没有透明度，大概是原始 uri 对应的是个 24 位的图？手动处理一下
+                var writeableBitmap = new WriteableBitmap(bitmapImage.PixelWidth, bitmapImage.PixelHeight, bitmapImage.DpiX, bitmapImage.DpiY, PixelFormats.Bgra32, null);
+                writeableBitmap.WritePixels(new(0, 0, bitmapImage.PixelWidth, bitmapImage.PixelHeight), pixelData, stride, 0);
+
+                bitmapImage = new();
+                using MemoryStream stream = new MemoryStream();
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(writeableBitmap));
+                encoder.Save(stream);
+                bitmapImage.BeginInit();
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.StreamSource = stream;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+                return bitmapImage;
             }
             catch
             {

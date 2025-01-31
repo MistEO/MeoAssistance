@@ -3287,8 +3287,9 @@
     "OrundumActivitiesEarnRewards": {
         "action": "ClickRect",
         "roi": [590, 40, 130, 100],
+        "postDelay": 1500,
         "specificRect": [600, 600, 70, 70],
-        "next": ["OrundumActivitiesReturn"]
+        "next": ["#self", "OrundumActivitiesReturn"]
     },
     "OrundumActivitiesReturn": {
         "template": "CloseAnno.png",
@@ -4111,7 +4112,7 @@
         "template": "Office.png",
         "maskRange": [1, 255],
         "roi": [378, 94, 589, 529],
-        "templThreshold": 0.95
+        "templThreshold": 0.9
     },
     "InfrastOfficeMini": {
         "template": "OfficeMini.png",
@@ -4205,44 +4206,47 @@
     },
     "InfrastFilterMenuNotStationed": {
         "action": "ClickSelf",
-        "template": "InfrastFilterMenu.png",
+        "Doc": "国服如果已经选中会因为匹配不上选中不了所以直接结束",
+        "Doc2": "国服现在 ui 改了，兼容外服，和下面的取消有点区别",
+        "template": ["InfrastFilterMenu.png", "InfrastFilterMenu2.png"],
         "roi": [1050, 0, 230, 100],
-        "next": ["InfrastFilterMenuNotStationedButton", "InfrastFilterMenuNotStationedButtonAlreadyClicked"],
-        "postDelay": 1000
+        "postDelay": 1000,
+        "next": ["InfrastFilterMenuNotStationedButton", "InfrastFilterMenuNotStationedButtonAlreadyClicked"]
     },
     "InfrastFilterMenuNotStationedButton": {
         "action": "ClickSelf",
         "templThreshold": 0.85,
-        "roi": [300, 300, 250, 150],
+        "roi": [300, 160, 890, 300],
         "postDelay": 1000,
-        "next": ["InfrastFilterMenuConfirmButton"]
+        "next_Doc": "国服现在没有 InfrastFilterMenuConfirmButton 了，加个 Stop",
+        "next": ["InfrastFilterMenuConfirmButton", "Stop"]
     },
     "InfrastFilterMenuNotStationedButtonAlreadyClicked": {
-        "roi": [300, 300, 250, 150],
+        "roi": [300, 160, 890, 300],
         "next": ["InfrastFilterMenuConfirmButton"]
     },
     "InfrastFilterMenuCancelNotStationed": {
+        "Doc": "国服如果已经选中会因为匹配不上选中不了所以直接结束",
         "action": "ClickSelf",
-        "template": "InfrastFilterMenu.png",
+        "template": ["InfrastFilterMenu.png", "InfrastFilterMenu3.png"],
         "roi": [1050, 0, 230, 100],
-        "next": [
-            "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked",
-            "InfrastFilterMenuCancelNotStationedButton"
-        ],
-        "postDelay": 1000
+        "postDelay": 1000,
+        "next": ["InfrastFilterMenuCancelNotStationedButtonAlreadyClicked", "InfrastFilterMenuCancelNotStationedButton"]
     },
     "InfrastFilterMenuCancelNotStationedButton": {
         "template": "InfrastFilterMenuNotStationedButton.png",
         "templThreshold": 0.85,
-        "roi": [300, 300, 250, 150],
+        "roi": [300, 160, 890, 300],
         "postDelay": 1000,
         "next": ["InfrastFilterMenuConfirmButton"]
     },
     "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked": {
         "action": "ClickSelf",
         "template": "InfrastFilterMenuNotStationedButtonAlreadyClicked.png",
-        "roi": [300, 300, 250, 150],
-        "next": ["InfrastFilterMenuConfirmButton"]
+        "roi": [300, 160, 890, 300],
+        "next_Doc": "国服现在没有 InfrastFilterMenuConfirmButton 了，加个 Stop",
+        "postDelay": 1000,
+        "next": ["InfrastFilterMenuConfirmButton", "Stop"]
     },
     "InfrastFilterMenuConfirmButton": {
         "action": "ClickSelf",
@@ -4266,7 +4270,7 @@
     "InfrastBottomLeftTab": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [0, 540, 520, 180],
+        "specificRect": [0, 719, 1, 1],
         "preDelay": 1000,
         "postDelay": 2000
     },
@@ -6506,12 +6510,14 @@
         "baseTask": "SlowlySwipeToTheLeft",
         "Doc": "为了保证每次滑动至少多出一列 且 不能跳过一列，应保证滑动距离在400-500之间。",
         "specificRect": [500, 340, 20, 20],
-        "rectMove": [980, 340, 20, 20]
+        "rectMove": [980, 340, 20, 20],
+        "postDelay": 500
     },
     "RoguelikeRecruitOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [1150, 340, 20, 20],
-        "rectMove": [670, 340, 20, 20]
+        "rectMove": [670, 340, 20, 20],
+        "postDelay": 500
     },
     "RoguelikeRecruitOperListSwipeToTheLeft": {
         "baseTask": "RoguelikeRecruitOperListSlowlySwipeToTheLeft",
@@ -7138,14 +7144,16 @@
     },
     "Roguelike@LastReward": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
-        "baseTask": "Roguelike@LastReward_default",
-        "template": "empty.png"
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [225, 199, 829, 241],
+        "next": []
     },
     "Roguelike@LastReward-EnterPoint": {
         "Doc": "插件挂载，选择期望的奖励，template为所有LastReward集合，进入插件后重新匹配，有就Confirm，没有就Abandon",
         "template": "empty.png",
         "roi": [225, 199, 829, 241],
-        "next": ["Roguelike@RolesDefault", "Roguelike@CloseCollection", "Roguelike@StartExplore"]
+        "next": ["Roguelike@LastRewardConfirm", "Roguelike@AbandonConfirm#next"]
     },
     "Roguelike@LastReward-Strategy": {
         "Doc": "未指定期望时，默认选择策略",
@@ -7153,35 +7161,29 @@
     },
     "Roguelike@LastReward2": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 5 源石锭",
-        "baseTask": "Roguelike@LastReward_default",
+        "baseTask": "Roguelike@LastReward",
         "template": "empty.png"
     },
     "Roguelike@LastReward3": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 3 目标生命",
-        "baseTask": "Roguelike@LastReward_default",
+        "baseTask": "Roguelike@LastReward",
         "template": "empty.png"
     },
     "Roguelike@LastReward4": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 2 希望",
-        "baseTask": "Roguelike@LastReward_default",
+        "baseTask": "Roguelike@LastReward",
         "template": "empty.png"
     },
     "Roguelike@LastRewardConfirm": {
-        "baseTask": "Roguelike@LastReward_default",
+        "action": "ClickSelf",
         "template": "empty.png",
         "roi": [171, 474, 935, 205],
-        "next": []
+        "next": ["Roguelike@RolesDefault", "Roguelike@CloseCollection"]
     },
     "Roguelike@LastRewardRand": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 问号",
-        "baseTask": "Roguelike@LastReward_default",
+        "baseTask": "Roguelike@LastReward",
         "template": "empty.png"
-    },
-    "Roguelike@LastReward_default": {
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "roi": [225, 199, 829, 241],
-        "next": ["Roguelike@LastRewardConfirm"]
     },
     "Roguelike@MainThemes": {
         "next": ["Roguelike", "Roguelike@ChooseDifficulty", "Roguelike@StartExplore", "Roguelike@Abandon"]
@@ -8588,11 +8590,11 @@
     "Mizuki@Roguelike@LastReward4": {},
     "Mizuki@Roguelike@LastReward5": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 1 钥匙",
-        "baseTask": "Mizuki@Roguelike@LastReward_default"
+        "baseTask": "Mizuki@Roguelike@LastReward"
     },
     "Mizuki@Roguelike@LastReward6": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 1 骰子",
-        "baseTask": "Mizuki@Roguelike@LastReward_default"
+        "baseTask": "Mizuki@Roguelike@LastReward"
     },
     "Mizuki@Roguelike@LastRewardConfirm": {},
     "Mizuki@Roguelike@LastRewardRand": {},
@@ -10236,7 +10238,7 @@
         "roi": [589, 584, 231, 121],
         "templThreshold": 0.9,
         "action": "ClickRect",
-        "specificRect": [710, 680, 0, 0],
+        "specificRect": [600, 660, 220, 40],
         "postDelay": 500,
         "next": ["Sarkaz@Roguelike@ChooseBurdenOperator", "Sarkaz@Roguelike@ChooseBurdenOperatorQuit"]
     },
@@ -10630,7 +10632,7 @@
     "Sarkaz@Roguelike@LastReward4": {},
     "Sarkaz@Roguelike@LastReward5": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 2 构想",
-        "baseTask": "Sarkaz@Roguelike@LastReward_default"
+        "baseTask": "Sarkaz@Roguelike@LastReward"
     },
     "Sarkaz@Roguelike@LastRewardConfirm": {},
     "Sarkaz@Roguelike@LastRewardRand": {},

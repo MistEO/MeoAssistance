@@ -17,7 +17,7 @@
     Icon="../../newlogo.ico"
     ShowCloseButton="False"
     mc:Ignorable="d">
-    <ScrollViewer Background="{DynamicResource VersionUpdateViewBackgroundBrush}">
+    <hc:ScrollViewer Background="{DynamicResource VersionUpdateViewBackgroundBrush}" IsInertiaEnabled="True">
         <StackPanel>
             <mdxam:MarkdownScrollViewer
                 Margin="10,0,10,0"
@@ -47,5 +47,5 @@
                 Command="{s:Action Close}"
                 Content="{DynamicResource Confirm}" />
         </StackPanel>
-    </ScrollViewer>
+    </hc:ScrollViewer>
 </hc:Window>

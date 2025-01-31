@@ -127,8 +127,8 @@
     <system:String x:Key="RoguelikeStrategyLastReward">Grind to obtain Hot Water Kettle or Elite II operators</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">Farm collapse paradigms, restart immediately after encountering a non-rare collapse paradigm</system:String>
     <system:String x:Key="RoguelikeCollectibleModeSquad">Squad to get collectibles</system:String>
-    <system:String x:Key="RoguelikeStrategyMonthlySquad">Grind Monthly Squad，exits after arriving at the fifth level</system:String>
-    <system:String x:Key="RoguelikeStrategyDeepExploration">Grind Deep Exploration，clear as far as possible</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">Grind Monthly Squad, exits after arriving at the fifth level</system:String>
+    <system:String x:Key="RoguelikeStrategyDeepExploration">Grind Deep Exploration, clear as far as possible</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting Operator (single)</system:String>
@@ -137,7 +137,7 @@
     <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for「Starting Operator」Elite 2</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for「Starting Operator」Elite 2, No Battle</system:String>
     <system:String x:Key="RoguelikeStartWithTwoIdeas">Repeat for a start with 2 ideas</system:String>
-    <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor，No Battle</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor, No Battle</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with "Life Prioritizing Squad" and acquire the cypherboard</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ";"</system:String>
     <system:String x:Key="RoguelikeCollapseList">Collapse Paradigm List</system:String>
@@ -240,6 +240,8 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="UpdateCheckNow">Check update</system:String>
     <system:String x:Key="ShowChangelog">Changelog</system:String>
     <system:String x:Key="ResourceUpdate">Resource update</system:String>
+    <system:String x:Key="ResourceUpdateSource">Resource Update Source</system:String>
+    <system:String x:Key="MirrorChyan">Mirror-Chyan</system:String>
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">Downloading in the background……</system:String>
     <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">Version: </system:String>
@@ -407,7 +409,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip" xml:space="preserve">
 MuMu 12 V4.0.0 or later is required. Global version is not supported.
-It is strongly recommended to run a screenshot test immediately after enabling this feature.
+It's strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
 C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe
@@ -425,8 +427,8 @@ Note:
     <system:String x:Key="MuMuExtrasNotEnabledMessage">Mumu screenshot enhancement not enabled, please check related settings</system:String>
     <system:String x:Key="LdExtrasEnabled">Enable LD's screenshot enhancement mode</system:String>
     <system:String x:Key="LdExtrasEnabledTip" xml:space="preserve">
-LDPlayer 9 V9.0.78 or later is required. The Global version requires V9.1.32 or later.
-It is strongly recommended to run a screenshot test immediately after enabling this feature.
+LDPlayer 9 V9.1.32 or later is required.
+It's strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.\n
 The installation path should be the root directory of the emulator installation, for example, if the emulator process file path is
 C:\\leidian\\LDPlayer9\\dnplayer.exe
@@ -434,8 +436,6 @@ then it should be filled in as
 C:\\leidian\\LDPlayer9。\n
 The instance number can be viewed in LDPlayer Multi-Instance Manager,
 The primary instance is 0, and other instances are the numbers after the version/instance ID.\n
-Note:
-Emulator versions prior to V9.1.28 only support 720P, 900P, and 1080P resolutions. Versions after V9.1.29 support 2K and 4K, but due to the sliding mechanism of Arknights, resolutions above 2K are not recommended.
     </system:String>
     <system:String x:Key="LdEmulatorPath">LD Emulator exec path</system:String>
     <system:String x:Key="LdIndex">Instance Number</system:String>
@@ -849,8 +849,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="QqGroup">QQ group</system:String>
     <system:String x:Key="QqChannel">QQ channel</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
+    <system:String x:Key="Discord">Discord</system:String>
     <system:String x:Key="Help">FAQ</system:String>
-    <system:String x:Key="Issue">Issue</system:String>
+    <system:String x:Key="Issue">Issues</system:String>
     <!--  !About  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3★ Tags</system:String>

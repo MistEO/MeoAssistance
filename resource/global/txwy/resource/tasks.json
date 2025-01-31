@@ -40,15 +40,6 @@
         "roi": [999, 243, 281, 176],
         "text": ["雪山大典", "雪山", "大典"]
     },
-    "HS-Open": {
-        "action": "ClickSelf",
-        "algorithm": "MatchTemplate",
-        "baseTask": "#none",
-        "next": ["HSChapterToHS"],
-        "postDelay": 2000,
-        "roi": [517, 64, 155, 168],
-        "template": "StageSideStory.png"
-    },
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["選擇"]
     },
@@ -92,20 +83,9 @@
     "CRChapterToCR": {
         "text": ["展廳", "漫遊"]
     },
-    "HS-9": {
-        "algorithm": "JustReturn",
-        "sub": ["HS-Open"],
-        "next": ["HS-9@SideStoryStage", "HS-9@SwipeToStage"]
-    },
-    "HS-8": {
-        "algorithm": "JustReturn",
-        "sub": ["HS-Open"],
-        "next": ["HS-8@SideStoryStage", "HS-8@SwipeToStage"]
-    },
-    "HS-7": {
-        "algorithm": "JustReturn",
-        "sub": ["HS-Open"],
-        "next": ["HS-7@SideStoryStage", "HS-7@SwipeToStage"]
+    "HS-OpenOcr": {
+        "text": ["懷黍離", "荒城", "核心"],
+        "ocrReplace": [["懷.*離", "懷黍離"]]
     },
     "HSChapterToHS": {
         "text": ["種植", "地塊"]

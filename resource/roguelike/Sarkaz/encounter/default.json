@@ -221,7 +221,7 @@
         {
             "name": "相遇",
             "option_num": 4,
-            "choose": 3,
+            "choose": 1,
             "choices": [
                 {
                     "name": "它邀请对方共享猎物",
@@ -626,6 +626,11 @@
         },
         {
             "name": "戴冠式",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "空无前兆",
             "option_num": 2,
             "choose": 2
         },

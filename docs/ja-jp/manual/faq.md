@@ -21,7 +21,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 以下の<u>**2つ**</u>のランタイムライブラリを手動でダウンロードしてインストールして問題を解決してください。
 
 - [Visual C++ 再頒布可能パッケージ](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-- [.NET デスクトップランタイム 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-x64)
+- [.NET デスクトップランタイム 8](https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe)
 
 :::
 

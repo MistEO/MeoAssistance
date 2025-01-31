@@ -196,6 +196,8 @@ namespace MaaWpfGui.Constants
         public const string UpdateProxy = "VersionUpdate.Proxy";
         public const string ProxyType = "VersionUpdate.ProxyType";
         public const string VersionType = "VersionUpdate.VersionType";
+        public const string ResourceUpdateSource = "VersionUpdate.ResourceUpdateSource";
+        public const string MirrorChyanCdk = "VersionUpdate.ResourceUpdateSource.MirrorChyanCdk";
         public const string UpdateCheck = "VersionUpdate.UpdateCheck";
         public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
         public const string ResourceApi = "VersionUpdate.ResourceApi";

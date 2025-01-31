@@ -19,6 +19,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 using MaaWpfGui.Constants;
@@ -26,6 +28,10 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
+using MaaWpfGui.Views.UI;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using Serilog;
 using Stylet;
 
@@ -355,11 +361,14 @@ namespace MaaWpfGui.Models
                     case UpdateResult.Success
                         when !await HttpResponseHelper.SaveResponseToFileAsync(response, saveTo):
                         return UpdateResult.Failed;
+
                     case UpdateResult.Success:
                         ETagCache.Set(response);
                         return UpdateResult.Success;
+
                     case UpdateResult.NotModified:
                         return UpdateResult.NotModified;
+
                     case UpdateResult.Failed:
                     default:
                         await Task.Delay(5000);
@@ -423,7 +432,7 @@ namespace MaaWpfGui.Models
         public static async Task<bool> UpdateFromGithubAsync()
         {
             ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdating"));
-            bool download = await DownloadFullPackageAsync("https://github.com/MaaAssistantArknights/MaaResource/archive/refs/heads/main.zip", "MaaResource.zip").ConfigureAwait(false);
+            bool download = await DownloadFullPackageAsync(MaaUrls.GithubResourceUpdate, "MaaResource.zip").ConfigureAwait(false);
             if (!download)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
@@ -460,6 +469,118 @@ namespace MaaWpfGui.Models
 
                     DirectoryMerge(sourceFolder, destinationFolder);
                 }
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Failed to copy folders: " + e.Message);
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                return false;
+            }
+
+            // 删除 MaaResource 文件夹 和 MaaResource.zip
+            try
+            {
+                Directory.Delete("MaaResource", true);
+                File.Delete("MaaResource.zip");
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Failed to delete MaaResource: " + e.Message);
+            }
+
+            return true;
+        }
+
+        // 从 MirrorChyan 下载完整包
+        public static async Task<bool> UpdateFromMirrorChyanAsync()
+        {
+            // https://mirrorc.top/api/resources/MaaResource/latest?current_version=<当前版本日期，从 version.json 里拿时间戳>&cdk=<cdk>&sp_id=<唯一识别码>
+            // 响应格式为 {"code":0,"msg":"success","data":{"version_name":"2025-01-22 14:28:32.839","version_number":9,"url":"<增量更新网址>"}}
+            var versionFilePath = Path.Combine(Environment.CurrentDirectory, "MirrorChyanResourceVersion");
+            string? currentVersion = null;
+            if (File.Exists(versionFilePath))
+            {
+                try
+                {
+                    currentVersion = await File.ReadAllTextAsync(versionFilePath);
+                    currentVersion = DateTime.Parse(currentVersion).ToString("yyyy-MM-dd+HH:mm:ss");
+                }
+                catch (Exception e)
+                {
+                    _logger.Error("Failed to read or parse version file: " + e.Message);
+                    currentVersion = null;
+                }
+            }
+            else
+            {
+                _logger.Information("Version file not found, assuming first time download.");
+            }
+
+            var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk;
+            var url = currentVersion == null
+                ? $"{MaaUrls.MirrorChyanResourceUpdate}?cdk={cdk}"
+                : $"{MaaUrls.MirrorChyanResourceUpdate}?current_version={currentVersion}&cdk={cdk}";
+
+            var response = await Instances.HttpService.GetAsync(new(url), logUri: false);
+            if (response is null)
+            {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                return false;
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var data = (JObject?)JsonConvert.DeserializeObject(json);
+            if (data is null)
+            {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                return false;
+            }
+
+            var code = data["code"]?.ToString();
+            if (code is not null && code != "0")
+            {
+                ToastNotification.ShowDirect(data["msg"]?.ToString());
+                return false;
+            }
+
+            url = data["data"]?["url"]?.ToString();
+            if (string.IsNullOrEmpty(url))
+            {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("AlreadyLatest"));
+                return false;
+            }
+
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceUpdating"));
+            bool download = await DownloadFullPackageAsync(url, "MaaResource.zip").ConfigureAwait(false);
+            if (!download)
+            {
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                return false;
+            }
+
+            // 解压到 MaaResource 文件夹
+            try
+            {
+                if (Directory.Exists("MaaResource"))
+                {
+                    Directory.Delete("MaaResource", true);
+                }
+
+                ZipFile.ExtractToDirectory("MaaResource.zip", "MaaResource");
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Failed to extract MaaResource.zip: " + e.Message);
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("GameResourceFailed"));
+                return false;
+            }
+
+            // 没有 cache 文件夹，直接复制 resource 文件夹复制到当前目录
+            try
+            {
+                string sourcePath = new("MaaResource");
+                string destinationPath = Directory.GetCurrentDirectory();
+                DirectoryMerge(sourcePath, destinationPath);
             }
             catch (Exception e)
             {

@@ -31,23 +31,6 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     if (mode == RoguelikeMode::Collectible) {
         m_collectible_mode_shopping = params.get("collectible_mode_shopping", false);
 
-        if (auto select_list = params.find<json::object>("collectible_mode_start_list"); select_list) {
-            RoguelikeStartSelect list;
-            list.hot_water = select_list->get("hot_water", false);
-            list.shield = select_list->get("shield", false);
-            list.ingot = select_list->get("ingot", false);
-            list.hope = select_list->get("hope", false);
-            list.random = select_list->get("random", false);
-            if (m_theme == RoguelikeTheme::Mizuki) {
-                list.key = select_list->get("key", false);
-                list.dice = select_list->get("dice", false);
-            }
-            else if (m_theme == RoguelikeTheme::Sarkaz) {
-                list.ideas = select_list->get("ideas", false);
-            }
-            m_start_select = list;
-        }
-
         if (m_theme == RoguelikeTheme::Sami) {
             m_first_floor_foldartal = !params.get("first_floor_foldartal", "").empty();
         }

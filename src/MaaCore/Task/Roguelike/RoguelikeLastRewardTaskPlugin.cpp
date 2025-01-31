@@ -22,18 +22,8 @@ bool asst::RoguelikeLastRewardTaskPlugin::verify(AsstMsg msg, const json::value&
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@StartExplore") {
-        // 标记开始行动
-        m_is_next_hardest = false;
-        return false;
-    }
-    if (task_view == "Roguelike@ExitThenAbandon") {
-        // 开始行动过且没有打完三层，重开低难度
-        return !m_is_next_hardest;
-    }
     if (task_view == "Roguelike@ExitThenAbandon_ToHardest") {
         // 打完低难度的三层，重开高难度烧水壶
-        m_is_next_hardest = true;
         return true;
     }
     else {
@@ -58,14 +48,8 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
     }
 
     if (m_config->get_theme() != RoguelikeTheme::Phantom && mode == RoguelikeMode::Collectible) {
-        if (!m_is_next_hardest) {
-            // 开启烧开水 Flag，将难度设置为 0
-            m_config->set_run_for_collectible(true);
-        }
-        else {
-            // 关闭烧开水 Flag，将难度调整回用户设置的数值
-            m_config->set_run_for_collectible(false);
-        }
+        // 关闭烧开水 Flag，将难度调整回用户设置的数值
+        m_config->set_run_for_collectible(false);
     }
     return true;
 }

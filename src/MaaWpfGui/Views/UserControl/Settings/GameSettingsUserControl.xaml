@@ -70,16 +70,16 @@
                     Text="{DynamicResource DeploymentWithPause}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox
-                Margin="20,10"
-                Content="{DynamicResource AutoRestartOption}"
-                IsChecked="{Binding AutoRestartOnDrop}" />
         </StackPanel>
 
         <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
+            <CheckBox
+                Margin="20,10"
+                Content="{DynamicResource AutoRestartOption}"
+                IsChecked="{Binding AutoRestartOnDrop}" />
             <CheckBox Margin="0,10" IsChecked="{Binding RoguelikeDelayAbortUntilCombatComplete}">
                 <TextBlock
                     Block.TextAlignment="Left"

@@ -284,7 +284,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                         oper_info.level);
                 }
 
-                if (temp_recruit_exist) { // 临时招募干员具有极高抓取优先级，但是在编队时会占用前面的位置
+                if (temp_recruit_exist && !oper_info.name.starts_with("预备干员")) {
+                    // 临时招募干员具有极高抓取优先级，但是在编队时会占用前面的位置
                     priority += 600;
                     temp_recruit_exist = false;
                 }

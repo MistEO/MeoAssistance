@@ -20,19 +20,19 @@ namespace MaaWpfGui.Extensions
     {
         private static readonly ILogger _logger = Serilog.Log.ForContext("SourceContext", "HttpResponseLoggingExtension");
 
-        public static void Log(this HttpResponseMessage response)
+        public static void Log(this HttpResponseMessage response, bool logUri = true)
         {
-            var method = response.RequestMessage.Method;
-            var url = response.RequestMessage.RequestUri.ToString();
-            var statusCode = response.StatusCode.ToString();
+            var method = response?.RequestMessage?.Method;
+            var url = response?.RequestMessage?.RequestUri?.ToString();
+            var statusCode = response?.StatusCode.ToString();
 
-            if (response.IsSuccessStatusCode)
+            if (response is { IsSuccessStatusCode: true })
             {
-                _logger.Information("HTTP: {StatusCode} {Method} {Url}", statusCode, method, url);
+                _logger.Information("HTTP: {StatusCode} {Method} {Url}", statusCode, method, logUri ? url : "*****");
             }
             else
             {
-                _logger.Warning("HTTP: {StatusCode} {Method} {Url}", statusCode, method, url);
+                _logger.Warning("HTTP: {StatusCode} {Method} {Url}", statusCode, method, logUri ? url : "*****");
             }
         }
     }

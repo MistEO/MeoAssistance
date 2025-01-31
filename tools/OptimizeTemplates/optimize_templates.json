@@ -1286,7 +1286,7 @@
     "official/DepotMaterialTabClicked": "db09ee0d64a3faacee552540edf091a1121eb542b411a4165814388535973235",
     "official/Dorm": "68c9666292f2d5261c5e6c75253adf3eb868b6bab9dd7f2d586bedef6440903f",
     "official/DormConfirm": "31a426204713619d6a9bdeea6b227743104408836d5d81d3e3b152bf8ecfe158",
-    "official/DormMini": "b299a33b3e239f256b883d5ac67ee6099f92da932b6c4ae76c9b8b8323bf8d48",
+    "official/DormMini": "d75e8423edcd373c4792d846bc570416e6af0bf31a82bf126775b0d7168581ea",
     "official/DroneAssistMfg": "60143d2f51601b51d493f336aebf6be8ddc5d43524ba6fb1293f3b0acd25f505",
     "official/DroneAssistTrade": "f8fc8537b225c3076d54de99e47d3a1f74f2e97a653bcf9dcee09ce46c9d5c93",
     "official/DroneCancel": "d52717f1f91f36237a6df85439c151f8b17eb1505c8a5b46a967d248e0021f3e",
@@ -1338,8 +1338,8 @@
     "official/InfrastClueSelfMaybeFull": "c33a7af864242a485eb257b6c4f921dd7ff193d915814b3e384958abef4c9dc3",
     "official/InfrastFilterMenu": "15406325057ea61933db79e8bd1ebad3fbbd9d57bfa00c734a7ada0aa65681b9",
     "official/InfrastFilterMenuConfirmButton": "4c04390045ae3eb81ac3cdfa183b35fcaccd084dc93e61dfd89e471dbcb5611f",
-    "official/InfrastFilterMenuNotStationedButton": "09d762f9e537acefba9559a31a316ed986b3dae424409d3896edbeef67cf2e2e",
-    "official/InfrastFilterMenuNotStationedButtonAlreadyClicked": "96e9deaac09181e9e58ecd36a744376184ec4e407464181e5cfd4c4ba628edf2",
+    "official/InfrastFilterMenuNotStationedButton": "346670164d1a1a33e368dd52049b1f8fe8aac4a9facf9fb932e7dc842f8c2758",
+    "official/InfrastFilterMenuNotStationedButtonAlreadyClicked": "fa3e4759361e245ad9dd498a1e435078777fb6ec16abc221df083ec37a212164",
     "official/InfrastMfgChipFlag": "52865f126d1376bbd48c68a2d6972a69d456bd6d2c8e9343623f7062f0771716",
     "official/InfrastMfgDogFoodFlag": "51a430039b9eec9c891f2c0e0d3a7f7ce4f3e66e1a6ec2b8bbdf28220cfb3bae",
     "official/InfrastMfgOriginStoneFlag": "4a36ee9085d2b6a0130ffb256bf4e44657224f8ce47df0956ddecf1a1d309611",
@@ -3016,5 +3016,11 @@
     "YoStarJP/ClueCanBeSent": "f3d25f776a116df5d77602a164fa4710e11cf85f6e4f86243eab53823c5b93e4",
     "YoStarJP/EnterInfrastSiege": "3c6933e13a6fcd5f960a5e45789dc50be58f9d2d9e4101088a88c9821650d803",
     "YoStarJP/EnterInfrastSami": "dcce70c21dc958473ab6be58cabd15d7f15cc54cf640ee5e08e7658540bb7908",
-    "official/ClueCanBeSent": "ac04de9c1c7f9f82d806f867775168c0e3d283a407f0c3e191b175ed1ac430f0"
+    "official/ClueCanBeSent": "ac04de9c1c7f9f82d806f867775168c0e3d283a407f0c3e191b175ed1ac430f0",
+    "txwy/TrainingMini": "7aaaedf5da5639c5532fba22d7e0643c2d4b15db5325ca201f85b02d5aeb3b1f",
+    "txwy/InfrastProcessing": "1016ddae490dcad3883cda098f2f922b93b5f9956683605ebd5dc758e75f5309",
+    "txwy/Training": "661a5d27dded8787bbadffa96e59f4b08f99bdf15868963be81e140ea3314eb1",
+    "txwy/InfrastProcessingMini": "5341b38a2f0130715fb588c3f1bbaa7e83079f0abbc16cef886061f1ec949c81",
+    "official/InfrastFilterMenu2": "941d1085b522058dc05a632b366c52fed6c06be8ab61d42572c5f59ed40ebec0",
+    "official/InfrastFilterMenu3": "a501421b39e9eaf150f2f01cb15229094226b15269e74aa562d6dc29fe7e2a37"
 }

@@ -75,10 +75,15 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task CheckAndDownloadAnnouncement()
         {
-            const string Path = "announcements/wpf.md";
-            const string Url = MaaUrls.MaaApi + Path;
+            string path = "announcements/wpf";
+            if (SettingsViewModel.GuiSettings.Language is not ("zh-cn" or "zh-tw"))
+            {
+                path += "_en";
+            }
 
-            using var response = await ETagCache.FetchResponseWithEtag(Url, string.IsNullOrEmpty(AnnouncementInfo));
+            string url = MaaUrls.MaaApi + path + ".md";
+
+            using var response = await ETagCache.FetchResponseWithEtag(url, string.IsNullOrEmpty(AnnouncementInfo));
 
             if (response == null ||
                 response.StatusCode == System.Net.HttpStatusCode.NotModified ||

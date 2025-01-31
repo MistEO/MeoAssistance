@@ -209,6 +209,7 @@ GPU 지원이 필요하지 않은 경우, 이 DLL 파일을 안전하게 삭제�
 ## 광고
 
 사용자 그룹: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+Discord 서버: [Discord 링크](https://discord.gg/23DfZ9uA4V)  
 [전략 JSON 공유](https://prts.plus)  
 Bilibili 라이브 방송: [MrEO 방송](https://live.bilibili.com/2808861) 코딩 방송 & [MAA-Official 방송](https://live.bilibili.com/27548877) 게임/잡담  
 [명일방주 무관 기술 공유 & 만담 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2): 지옥 같아요!  

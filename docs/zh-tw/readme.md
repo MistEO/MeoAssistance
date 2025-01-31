@@ -208,6 +208,7 @@ DirectML.dll 是 Microsoft 提供的獨立組件，不屬於本軟體的開源�
 ## 廣告
 
 用戶交流 QQ 群：[MAA 使用 & 粥遊交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+Discord 伺服器：[Discord](https://discord.gg/23DfZ9uA4V)  
 用戶交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
 自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus) 或 [抄作業.com](http://抄作業.com)  
 Bilibili 直播間：[MrEO 直播間](https://live.bilibili.com/2808861) 直播敲代碼 & [MAA-Official 直播間](https://live.bilibili.com/27548877) 遊戲/雜談  

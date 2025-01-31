@@ -211,8 +211,9 @@ If you do not require GPU support, you can safely delete the DLL file, and the c
 
 ## Advertisement
 
+Discord Server: [Discord Invite](https://discord.gg/23DfZ9uA4V)  
 User Group: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ Group](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
-[Copilot JSON Sharing](https://prts.plus)  
+Copilot JSON Sharing: [prts.plus](https://prts.plus)  
 Bilibili Livestreams: [MrEO Livestream](https://live.bilibili.com/2808861) Coding Sessions & [MAA-Official Livestream](https://live.bilibili.com/27548877) Gaming/Chats  
 [Technical Discussion (QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
 [Dev Group(QQ Group)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)

@@ -99,6 +99,18 @@
                 VerticalAlignment="Center">
                 <Hyperlink
                     Cursor="Hand"
+                    NavigateUri="{Binding Source={x:Static constants:MaaUrls.Discord}}"
+                    TextDecorations="None">
+                    <TextBlock Text="{DynamicResource Discord}" />
+                </Hyperlink>
+            </controls:TextBlock>
+
+            <controls:TextBlock
+                Margin="5"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <Hyperlink
+                    Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.HelpUri}}"
                     TextDecorations="None">
                     <TextBlock Text="{DynamicResource Help}" />

@@ -206,9 +206,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(RoguelikeStageEncounterConfig, "roguelike"_p / "Sami"_p / "encounter"_p / "deposit.json"_p);
     LoadResourceAndCheckRet(
         RoguelikeStageEncounterConfig,
-        "roguelike"_p / "Sarkaz"_p / "encounter"_p / "deposit.json"_p);
-    LoadResourceAndCheckRet(
-        RoguelikeStageEncounterConfig,
         "roguelike"_p / "Sami"_p / "encounter"_p / "collapse.json"_p);
 
     // –––––––– Roguelike Map Config ––––––––––––––––––––––––––––––––––––––––––––------

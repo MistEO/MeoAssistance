@@ -14,8 +14,5 @@ public:
 
 protected:
     virtual bool _run() override;
-
-private:
-    mutable bool m_is_next_hardest = false; // 下一局是否是高难烧水局
 };
 }

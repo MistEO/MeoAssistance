@@ -6996,8 +6996,10 @@
         "roi": [715, 282, 171, 155]
     },
     "Roguelike@GamePassSkip2": {
+        "doc": "在 Skip2 与 TheEndConfirm 之间有空窗期，通过 postDelay 度过",
         "action": "ClickSelf",
         "roi": [1109, 0, 171, 138],
+        "postDelay": 5000,
         "next": ["Roguelike@GamePassTheEndConfirm", "Roguelike@GamePass", "Roguelike@ClickToStartPoint"]
     },
     "Roguelike@GamePassTheEndConfirm": {
@@ -8085,6 +8087,8 @@
     "Phantom@Roguelike@GamePass": {},
     "Phantom@Roguelike@GamePassSkip1": {},
     "Phantom@Roguelike@GamePassSkip1Confirm": {
+        "doc": "在 Skip1Confirm 与 Skip2 之间有空窗期，通过 postDelay 度过",
+        "postDelay": 5000,
         "next": [
             "Phantom@Roguelike@GamePassSkip2",
             "Phantom@Roguelike@GamePassTheEndConfirm",

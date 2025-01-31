@@ -209,7 +209,7 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
                         continue;
                     }
 
-                    if (!DataHelper.IsCharacterAvailableInClient(name, SettingsViewModel.GameSettings.ClientType))
+                    if (!DataHelper.IsCharacterAvailableInClient(name, ClientType))
                     {
                         continue;
                     }
@@ -225,6 +225,8 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
 
         RoguelikeCoreCharList = roguelikeCoreCharList;
     }
+
+    public string ClientType => SettingsViewModel.GameSettings.ClientType;
 
     /// <summary>
     /// Gets the list of roguelike lists.
@@ -625,6 +627,23 @@ public class RoguelikeSettingsUserControlModel : TaskViewModel
             ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeEnableNonfriendSupport, value.ToString());
         }
     }
+
+    private bool _roguelikeChooseBeautifulWishRaw = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeChooseBeautifulWish, bool.FalseString));
+
+    /// <summary>
+    /// Gets or sets a value indicating whether can roguelike support unit belong to nonfriend.
+    /// </summary>
+    public bool RoguelikeChooseBeautifulWishRaw
+    {
+        get => _roguelikeChooseBeautifulWishRaw;
+        set
+        {
+            SetAndNotify(ref _roguelikeChooseBeautifulWishRaw, value);
+            ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeChooseBeautifulWish, value.ToString());
+        }
+    }
+
+    public bool RoguelikeChooseBeautifulWish => _roguelikeChooseBeautifulWishRaw && RoguelikeTheme == "Sarkaz" && RoguelikeMode == "0" && ClientType is "Official" or "Bilibili";
 
     private string _roguelikeStartsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartsCount, "99999");
 

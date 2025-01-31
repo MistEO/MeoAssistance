@@ -526,6 +526,10 @@ namespace MaaWpfGui.Main
                     Connected = false;
                     break;
 
+                case "DroidCastNotAvailable":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DroidCastNotAvailable"), UiLogColor.Error);
+                    break;
+
                 case "FastestWayToScreencap":
                     {
                         string costString = details["details"]?["cost"]?.ToString() ?? "???";

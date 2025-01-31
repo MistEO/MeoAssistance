@@ -91,6 +91,11 @@
     <system:String x:Key="DormFilterNotStationedTips">勾选则不会将艾丽妮等干员从训练室移除，但也会导致加工站干员不能进入宿舍。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自动补货</system:String>
     <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
+    <system:String x:Key="PrioritizeSendingClue">优先送出线索</system:String>
+    <system:String x:Key="AmountOfClueToSend">线索送出量</system:String>
+    <system:String x:Key="SendClueToOCR">优先送给指定ID</system:String>
+    <system:String x:Key="OnlySendClueToOCR">只送给指定ID（可能会卡住线索收发流程）</system:String>
+    <system:String x:Key="SendClueList">送线索ID 分号分隔</system:String>
     <system:String x:Key="TrainingIdle">训练室空闲中</system:String>
     <system:String x:Key="TrainingCompleted">训练完成</system:String>
     <system:String x:Key="TrainingLevel">专精等级</system:String>

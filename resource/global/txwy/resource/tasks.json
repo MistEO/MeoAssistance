@@ -1069,9 +1069,6 @@
             ["人造物狂歡節", "人造物狂欢节"]
         ]
     },
-    "BattleQuickFormationFilter-Cost": {
-        "text": ["部署費用"]
-    },
     "BattleStartPre": {
         "text": ["開始行動", "開始突襲", "開始試煉", "開始試束", "開始測試"]
     },

@@ -84,7 +84,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
     bool use_sanity_potion = params.get("use_sanity_potion", false); // 是否吃理智药
     bool with_formation = params.get("formation", false);            // 是否使用自动编队
-    int select_formation = params.get("select_formation", 0);        // 选择第几个编队，0为不选择
+    unsigned squad_index = params.get("select_formation", 0);        // 选择第几个编队，0为不选择
     bool add_trust = params.get("add_trust", false);                 // 是否自动补信赖
     bool add_user_additional = params.contains("user_additional");   // 是否自动补用户自定义干员
     auto support_unit_usage = static_cast<SupportUnitUsage>(
@@ -147,25 +147,34 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     // 关卡名含有"TR"的为教学关,不需要编队
     m_formation_task_ptr->set_enable(with_formation && navigate_name.find("TR") == std::string::npos);
-    m_formation_task_ptr->set_select_formation(select_formation);
-    m_formation_task_ptr->set_add_trust(add_trust);
+    m_formation_task_ptr->set_squad_index(squad_index);
+    if (add_trust) {
+        m_formation_task_ptr->append_supplementary_oper_req(
+            BattleFormationTask::SupplementaryOperReq { .sort_key = BattleFormationTask::SortKey::Trust,
+                                                        .ascending = true,
+                                                        .num = UINT_MAX });
+    }
     m_formation_task_ptr->set_support_unit_usage(support_unit_usage);
-    m_formation_task_ptr->set_specific_support_unit(support_unit_name);
+    if (support_unit_usage == SupportUnitUsage::Specific &&
+        !m_formation_task_ptr->set_specific_support_unit(support_unit_name)) {
+        return false;
+    }
 
     if (auto opt = params.find<json::array>("user_additional"); add_user_additional && opt) {
-        std::vector<std::pair<std::string, int>> user_additional;
+        std::vector<BattleFormationTask::RequiredOper> additional_req;
         for (const auto& op : *opt) {
             std::string name = op.get("name", std::string());
             if (name.empty()) {
                 continue;
             }
-            user_additional.emplace_back(std::pair<std::string, int> { std::move(name), op.get("skill", 1) });
+            additional_req.emplace_back(
+                BattleFormationTask::RequiredOper { .name = std::move(name), .skill = op.get("skill", 0) });
         }
-        m_formation_task_ptr->set_user_additional(std::move(user_additional));
+        m_formation_task_ptr->set_additional_reqs(additional_req);
     }
 
     m_battle_task_ptr->set_wait_until_end(need_navigate);
-    m_battle_task_ptr->set_formation_task_ptr(m_formation_task_ptr->get_opers_in_formation());
+    m_battle_task_ptr->set_formation_task_ptr(m_formation_task_ptr->get_formation());
 
     size_t loop_times = params.get("loop_times", 1);
     if (need_navigate) {

@@ -1365,18 +1365,17 @@
             ["Manmade Carnival", "人造物狂欢节"]
         ]
     },
-    "BattleQuickFormationExpandRole": {
+    "OperList-ExpandRoleList": {
         "roi": [1166, 0, 114, 120]
     },
-    "BattleQuickFormationFilter-Cost": {
-        "text": ["Deployment Cost"],
-        "roi": [996, 443, 222, 125]
-    },
-    "BattleQuickFormationRole-All-OCR": {
+    "All@OperList-SelectRole-OCR": {
         "text": ["All"]
     },
     "BattleQuickFormationOCR": {
         "roi": [0, 231, 116, 22],
+        "specialParams": [105, 2, 7, 0]
+    },
+    "OperListAnalyzer-NameOcr": {
         "specialParams": [105, 2, 7, 0]
     },
     "BattleStartPre": {

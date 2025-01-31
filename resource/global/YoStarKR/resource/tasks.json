@@ -1305,10 +1305,7 @@
             ["인조물페스티벌", "人造物狂欢节"]
         ]
     },
-    "BattleQuickFormationFilter-Cost": {
-        "text": ["배치코스트"]
-    },
-    "BattleQuickFormationRole-All-OCR": {
+    "All@OperList-SelectRole-OCR": {
         "text": ["전체"]
     },
     "BattleStartPre": {

@@ -14,7 +14,7 @@
     "InfrastSmileyOnDistract": {
         "templThreshold": 0.7
     },
-    "BattleQuickFormationRole": {
+    "OperList-SelectRole": {
         "templThreshold": 0.65
     },
     "Mizuki@Roguelike@MissionFailedFlag": {

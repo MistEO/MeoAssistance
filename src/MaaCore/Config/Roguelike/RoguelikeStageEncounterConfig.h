@@ -9,26 +9,6 @@
 
 namespace asst
 {
-// steal from https://www.boost.org/doc/libs/1_85_0/libs/container_hash/doc/html/hash.html#notes_hash_combine
-// use boost if you prefer
-template <typename T1, typename T2>
-struct PairHash
-{
-    std::size_t operator()(const std::pair<T1, T2>& p) const
-    {
-        std::size_t hash1 = std::hash<T1> {}(p.first);
-        std::size_t hash2 = std::hash<T2> {}(p.second);
-        hash1 ^= hash2 + 0x9e3779b9 + (hash1 << 6) + (hash1 >> 2);
-
-        hash1 ^= hash1 >> 32;
-        hash1 *= 0xe9846af9b1a615d;
-        hash1 ^= hash1 >> 32;
-        hash1 *= 0xe9846af9b1a615d;
-        hash1 ^= hash1 >> 28;
-
-        return hash1;
-    }
-};
 
 class RoguelikeStageEncounterConfig final : public SingletonHolder<RoguelikeStageEncounterConfig>, public AbstractConfig
 {

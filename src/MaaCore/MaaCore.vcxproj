@@ -119,6 +119,7 @@
     <ClInclude Include="Utils\Algorithm.hpp" />
     <ClInclude Include="Utils\File.hpp" />
     <ClInclude Include="Utils\LibraryHolder.hpp" />
+    <ClInclude Include="Vision\Battle\OperListAnalyzer.h" />
     <ClInclude Include="Vision\Battle\SupportListAnalyzer.h" />
     <ClInclude Include="Vision\Roguelike\RoguelikeParameterAnalyzer.h" />
     <ClInclude Include="Vision\VisionHelper.h" />
@@ -205,7 +206,8 @@
     <ClInclude Include="Task\Interface\StartUpTask.h" />
     <ClInclude Include="Task\Miscellaneous\AutoRecruitTask.h" />
     <ClInclude Include="Task\Miscellaneous\BattleFormationTask.h" />
-    <ClInclude Include="Task\Miscellaneous\UseSupportUnitTaskPlugin.h" />
+    <ClInclude Include="Task\Miscellaneous\SupportList.h" />
+    <ClInclude Include="Task\Miscellaneous\OperList.h" />
     <ClInclude Include="Task\Miscellaneous\BattleProcessTask.h" />
     <ClInclude Include="Task\Miscellaneous\CreditFightTask.h" />
     <ClInclude Include="Task\Miscellaneous\CreditShoppingTask.h" />
@@ -314,6 +316,7 @@
     <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp" />
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp" />
     <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp" />
+    <ClCompile Include="Vision\Battle\OperListAnalyzer.cpp" />
     <ClCompile Include="Vision\Battle\SupportListAnalyzer.cpp" />
     <ClCompile Include="Vision\Roguelike\RoguelikeParameterAnalyzer.cpp" />
     <ClCompile Include="Vision\VisionHelper.cpp" />
@@ -397,7 +400,8 @@
     <ClCompile Include="Task\Interface\StartUpTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\AutoRecruitTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\BattleFormationTask.cpp" />
-    <ClCompile Include="Task\Miscellaneous\UseSupportUnitTaskPlugin.cpp" />
+    <ClCompile Include="Task\Miscellaneous\SupportList.cpp" />
+    <ClCompile Include="Task\Miscellaneous\OperList.cpp" />
     <ClCompile Include="Task\Miscellaneous\BattleProcessTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\CreditFightTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\CreditShoppingTask.cpp" />

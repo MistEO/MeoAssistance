@@ -3768,6 +3768,41 @@
             ["^资深.+", "资深干员"]
         ]
     },
+    "OperListAnalyzer-Flag": {
+        "doc": "识别每个干员栏位左上角的职业 Icon，后续根据相对位置识别其他信息",
+        "template": [
+            "Pioneer@OperListAnalyzer-Role.png",
+            "Warrior@OperListAnalyzer-Role.png",
+            "Tank@OperListAnalyzer-Role.png",
+            "Sniper@OperListAnalyzer-Role.png",
+            "Caster@OperListAnalyzer-Role.png",
+            "Medic@OperListAnalyzer-Role.png",
+            "Support@OperListAnalyzer-Role.png",
+            "Special@OperListAnalyzer-Role.png"
+        ],
+        "roi": [362, 80, 738, 310]
+    },
+    "OperListAnalyzer-Selected": {
+        "doc": [
+            "若干员栏位左上角职业 Icon 的 Rect 为 r, 则干员选择状态识别用 roi 为 [r.x + m.x, r.y + m.y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
+        "rectMove": [0, -8, 28, 8]
+    },
+    "OperListAnalyzer-NameOcr": {
+        "doc": [
+            "若干员栏位左上角职业 Icon 的 Rect 为 r, 则干员名识别用 roi 为 [r.x + m.x, r.y + m.y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove",
+            "specialParams 用于 RegionOCRer",
+            "| specialParams[0]: bin_threshold_lower",
+            "| specialParams[1]: bin_expansion",
+            "| specialParams[2]: bin_left_trim_threshold",
+            "| specialParams[3]: bin_right_trim_threshold"
+        ],
+        "baseTask": "CharsNameOcrReplace",
+        "rectMove": [0, 233, 119, 23],
+        "specialParams": [140, 2, 0, 0]
+    },
     "SupportListAnalyzer-Flag": {
         "doc": "识别每个助战干员栏位底部的 Icon，后续根据相对位置识别其他信息",
         "template": ["SupportListAnalyzer-Friend.png", "SupportListAnalyzer-NonFriend.png"],
@@ -3781,14 +3816,19 @@
         ]
     },
     "SupportListAnalyzer-NameOcr": {
-        "doc": "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员名识别用 roi 为 [r.x + roi.x, r.y - roi.y, roi.w, roi.h]",
+        "doc": [
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员名识别用 roi 为 [r.x + m.x, r.y + m.y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
         "baseTask": "CharsNameOcrReplace",
-        "roi": [0, -37, 129, 37]
+        "rectMove": [0, -37, 129, 37]
     },
     "SupportListAnalyzer-Elite": {
-        "doc": "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员精英化等级识别用 roi 为 [r.x + roi.x, r.y - roi,y, roi.w, roi.h]",
+        "doc": [
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员精英化等级识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
         "template": ["SupportListAnalyzer-Elite-2", "SupportListAnalyzer-Elite-1"],
-        "roi": [35, -187, 60, 50],
         "templThreshold": 0.7,
         "method": ["RGBCount", "RGBCount"],
         "colorScales": [
@@ -3796,17 +3836,16 @@
                 [250, 250, 250],
                 [255, 255, 255]
             ]
-        ]
+        ],
+        "rectMove": [35, -187, 60, 50]
     },
     "SupportListAnalyzer-LevelOcr": {
-        "doc": "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员等级识别用 roi 为 [r.x + roi.x, r.y - roi,y, roi.w, roi.h]",
+        "doc": [
+            "若助战干员栏位底部 Icon 的 Rect 为 r, 则干员等级识别用 roi 为 [r.x + m.x, r.y + m,y, m.w, m.h]",
+            "其中 m 为本任务的 rectMove"
+        ],
         "baseTask": "NumberOcrReplace",
-        "roi": [76, -130, 45, 20]
-    },
-    "SelectSupportConfirmToFormationPage": {
-        "baseTask": "BattleQuickFormationConfirm",
-        "template": "BattleQuickFormationConfirm.png",
-        "next": ["UseSupportUnit-Enter"]
+        "rectMove": [76, -130, 45, 20]
     },
     "RecruitRefresh": {
         "action": "ClickSelf",
@@ -4768,23 +4807,6 @@
             ["猩红.*道", "猩红甬道"]
         ]
     },
-    "BattleSelectFormation1": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [105, 662, 10, 58]
-    },
-    "BattleSelectFormation2": {
-        "baseTask": "BattleSelectFormation1",
-        "specificRect": [380, 662, 10, 58]
-    },
-    "BattleSelectFormation3": {
-        "baseTask": "BattleSelectFormation1",
-        "specificRect": [650, 662, 10, 58]
-    },
-    "BattleSelectFormation4": {
-        "baseTask": "BattleSelectFormation1",
-        "specificRect": [920, 662, 10, 58]
-    },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
         "roi": [995, 248, 244, 167],
@@ -4796,117 +4818,213 @@
         "roi": [115, 595, 1165, 75],
         "next": ["BattleSupportUnitFormationSelect", "RecruitSupportConfirm", "Stop"]
     },
-    "BattleQuickFormationCheck": {
-        "baseTask": "BattleQuickFormation",
-        "template": "BattleQuickFormation.png",
-        "action": "DoNothing",
-        "next": []
+    "BattleFormation-SelectSquad": {
+        "doc": [
+            "模版任务：选择编队",
+            "编队不会触发改名的区域有两组，一组是上面的黑长条 260*9，第二组是名字最左边和最右边的一块区域，右边比左边窄，暂定为左边 10*58"
+        ],
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "next": ["BattleFormation-SquadSelected", "BattleFormation-SelectSquad"]
     },
-    "BattleQuickFormation": {
-        "action": "ClickSelf",
+    "1@BattleFormation-SelectSquad": {
+        "specificRect": [105, 662, 10, 58]
+    },
+    "2@BattleFormation-SelectSquad": {
+        "specificRect": [380, 662, 10, 58]
+    },
+    "3@BattleFormation-SelectSquad": {
+        "specificRect": [650, 662, 10, 58]
+    },
+    "4@BattleFormation-SelectSquad": {
+        "specificRect": [920, 662, 10, 58]
+    },
+    "BattleFormation-SquadSelected": {
+        "doc": "模版任务：通过识别编辑图标判断当前选择的编队",
+        "template": "BattleFormation-SquadNameEditingIcon"
+    },
+    "1@BattleFormation-SquadSelected": {
+        "template": "BattleFormation-SquadNameEditingIcon",
+        "roi": [312, 675, 35, 40]
+    },
+    "2@BattleFormation-SquadSelected": {
+        "template": "BattleFormation-SquadNameEditingIcon",
+        "roi": [587, 675, 34, 40]
+    },
+    "3@BattleFormation-SquadSelected": {
+        "template": "BattleFormation-SquadNameEditingIcon",
+        "roi": [857, 675, 34, 40]
+    },
+    "4@BattleFormation-SquadSelected": {
+        "template": "BattleFormation-SquadNameEditingIcon",
+        "roi": [1128, 675, 34, 40]
+    },
+    "BattleFormation-EnterQuickSelection": {
+        "doc": "点击进入快速编队",
         "roi": [816, 0, 404, 149],
-        "postDelay": 1000,
-        "next": ["BattleQuickFormationClear", "BattleQuickFormation"]
-    },
-    "BattleQuickFormationClear": {
         "action": "ClickSelf",
-        "roi": [334, 605, 286, 115],
-        "postDelay": 500,
-        "next": ["BattleQuickFormationExpandRole", "Stop"]
+        "postDelay": 1000,
+        "next": ["BattleFormation-EnterQuickSelection", "Stop"]
     },
-    "BattleQuickFormationExpandRole": {
+    "BattleFormation-QuickSelection-ClearSelection": {
+        "doc": "在快速编队界面清空选择",
+        "roi": [334, 605, 286, 115],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "OperList-ExpandRoleList": {
+        "doc": "点击右上角 <职业> 按钮以展开干员职业筛选列表，当前选择的职业应当是 <全部>",
         "action": "ClickSelf",
         "roi": [1152, 0, 128, 138],
-        "postDelay": 500
+        "next": ["All@OperList-RoleSelected"]
     },
-    "BattleQuickFormationRole": {
-        "Doc": "base_task",
+    "OperList-RoleSelected": {
+        "doc": "模版任务: 在干员职业筛选列表通过蓝色背景的职业图标判断当前选择的职业是否正确",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "roi": [1155, 41, 125, 679],
+        "roi": [1190, 0, 90, 720],
         "method": "RGBCount",
+        "colorScales": [
+            [
+                [0, 0, 90],
+                [90, 150, 255]
+            ]
+        ],
+        "colorWithClose": false
+    },
+    "OperList-SelectRole": {
+        "doc": "模版任务: 在干员职业筛选列表点击黑色背景的职业图标切换职业",
+        "template": "empty.png",
+        "roi": [1155, 0, 125, 720],
         "templThreshold": 0.7,
+        "method": "RGBCount",
         "colorScales": [[90, 150]],
         "colorWithClose": false,
-        "postDelay": 500
-    },
-    "BattleQuickFormationFilter": {
         "action": "ClickSelf",
-        "roi": [1045, 0, 134, 123],
-        "postDelay": 500
+        "next": ["OperList-RoleSelected", "OperList-SelectRole"]
     },
-    "BattleQuickFormationFilter-Cost": {
-        "action": "ClickSelf",
+    "All@OperList-RoleSelected": {},
+    "Pioneer@OperList-RoleSelected": {},
+    "Warrior@OperList-RoleSelected": {},
+    "Tank@OperList-RoleSelected": {},
+    "Sniper@OperList-RoleSelected": {},
+    "Caster@OperList-RoleSelected": {},
+    "Medic@OperList-RoleSelected": {},
+    "Support@OperList-RoleSelected": {},
+    "Special@OperList-RoleSelected": {},
+    "All@OperList-SelectRole": {
+        "next": ["All@OperList-RoleSelected", "All@OperList-SelectRole", "All@OperList-SelectRole-OCR"]
+    },
+    "All@OperList-SelectRole-OCR": {
+        "baseTask": "All@OperList-SelectRole",
         "algorithm": "OcrDetect",
-        "text": ["部署费用"],
-        "roi": [989, 433, 196, 142],
+        "text": ["全部"],
+        "next": ["All@OperList-RoleSelected", "All@OperList-SelectRole", "All@OperList-SelectRole-OCR"]
+    },
+    "Pioneer@OperList-SelectRole": {},
+    "Warrior@OperList-SelectRole": {},
+    "Tank@OperList-SelectRole": {},
+    "Sniper@OperList-SelectRole": {},
+    "Caster@OperList-SelectRole": {},
+    "Medic@OperList-SelectRole": {},
+    "Support@OperList-SelectRole": {},
+    "Special@OperList-SelectRole": {
+        "method": "Ccoeff",
+        "colorScales": []
+    },
+    "OperList-ExpandCustomSort": {
+        "doc": "点击干员列表自定义排序右侧的 <...> 按钮以展开自定义排序列表",
+        "roi": [1045, 0, 134, 123],
+        "action": "ClickSelf",
         "postDelay": 500
     },
-    "BattleQuickFormationFilter-Trust": {
-        "action": "ClickSelf",
-        "roi": [1010, 70, 35, 580],
-        "postDelay": 500,
-        "next": ["BattleQuickFormationFilter-Click2"]
-    },
-    "BattleQuickFormationFilter-Click2": {
-        "action": "ClickSelf",
-        "roi": [1125, 60, 150, 600],
-        "postDelay": 500
-    },
-    "BattleQuickFormationFilter-PinUnactivated": {
-        "Doc": "特关未激活",
-        "roi": [725, 15, 80, 50]
-    },
-    "BattleQuickFormationFilter-PinActivated": {
-        "Doc": "特关激活",
-        "action": "ClickSelf",
-        "roi": [725, 15, 80, 50],
-        "sub": ["BattleQuickFormationFilter-PinUnactivated"]
-    },
-    "BattleQuickFormationFilterClose": {
+    "OperList-CollapseCustomSort": {
+        "doc": "折叠自定义排序列表",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [37, 104, 291, 185],
         "postDelay": 500
     },
+    "OperList-Sort": {
+        "doc": "模版任务：在自定义排序列表中点击排序键左侧图标",
+        "template": "empty.png",
+        "roi": [1010, 60, 35, 660],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "Level@OperList-Sort": {
+        "doc": "在排序列表中点击 <等级>",
+        "algorithm": "OcrDetect",
+        "text": ["等级"],
+        "roi": [805, 15, 200, 50],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "Rarity@OperList-Sort": {
+        "doc": "在排序列表中点击 <稀有度>",
+        "algorithm": "OcrDetect",
+        "text": ["稀有度"],
+        "roi": [805, 15, 200, 50],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "Trust@OperList-Sort": {
+        "template": ["Trust@OperList-SelectCustomSort", "Trust@OperList-CustomSortSelected"]
+    },
+    "Cost@OperList-Sort": {
+        "template": ["Cost@OperList-SelectCustomSort", "Cost@OperList-CustomSortSelected"]
+    },
+    "OperList-NonCustomSort-SetAsc": {
+        "doc": "对非自定义排序列表中点击当前选中的排序键下方的降序图标，以切换到升序",
+        "template": "OperList-NonCustomSort-Descending",
+        "roi": [815, 40, 200, 25],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "OperList-CustomSort-SetAsc": {
+        "doc": "在自定义排序列表中点击当前选中的排序键右侧的降序图标，以切换到升序",
+        "template": "OperList-CustomSort-Descending",
+        "roi": [1125, 60, 150, 660],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "OperList-MarkedOpersPinned": {
+        "doc": "特殊关注干员已置顶",
+        "roi": [725, 15, 80, 50]
+    },
+    "OperList-MarkedOpersUnpinned": {
+        "doc": "特殊关注干员未置顶",
+        "roi": [725, 15, 80, 50]
+    },
+    "OperList-PinMarkedOpers": {
+        "doc": "在特殊关注干员未置顶时开启置顶",
+        "baseTask": "OperList-MarkedOpersUnpinned",
+        "template": "OperList-MarkedOpersUnpinned",
+        "action": "ClickSelf",
+        "next": ["OperList-MarkedOpersUnpinned"]
+    },
+    "OperList-UnpinMarkedOpers": {
+        "doc": "在特殊关注干员已置顶时取消置顶取消置顶",
+        "baseTask": "OperList-MarkedOpersPinned",
+        "template": "OperList-MarkedOpersPinned",
+        "roi": [725, 15, 80, 50],
+        "action": "ClickSelf",
+        "next": ["OperList-MarkedOpersUnpinned"]
+    },
+    "OperList-SwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [1100, 350, 20, 20],
+        "rectMove": [400, 350, 20, 20],
+        "postDelay": 1000
+    },
+    "OperList-SwipeToTheLeft": {
+        "baseTask": "SlowlySwipeToTheLeft",
+        "specificRect": [400, 350, 20, 20],
+        "rectMove": [1100, 350, 20, 20],
+        "postDelay": 1000
+    },
     "BattleQuickFormationTrustIcon": {
         "templThreshold": 0.9,
         "roi": [360, 280, 735, 360]
-    },
-    "BattleQuickFormationRole-All": {
-        "baseTask": "BattleQuickFormationRole",
-        "roi": [1163, 0, 117, 133]
-    },
-    "BattleQuickFormationRole-All-OCR": {
-        "baseTask": "BattleQuickFormationRole-All",
-        "algorithm": "OcrDetect",
-        "text": ["全部"]
-    },
-    "BattleQuickFormationRole-Pioneer": {
-        "baseTask": "BattleQuickFormationRole"
-    },
-    "BattleQuickFormationRole-Warrior": {
-        "baseTask": "BattleQuickFormationRole"
-    },
-    "BattleQuickFormationRole-Tank": {
-        "baseTask": "BattleQuickFormationRole"
-    },
-    "BattleQuickFormationRole-Caster": {
-        "baseTask": "BattleQuickFormationRole"
-    },
-    "BattleQuickFormationRole-Medic": {
-        "baseTask": "BattleQuickFormationRole"
-    },
-    "BattleQuickFormationRole-Sniper": {
-        "baseTask": "BattleQuickFormationRole"
-    },
-    "BattleQuickFormationRole-Special": {
-        "baseTask": "BattleQuickFormationRole",
-        "method": "Ccoeff",
-        "colorScales": []
-    },
-    "BattleQuickFormationRole-Support": {
-        "baseTask": "BattleQuickFormationRole"
     },
     "BattleQuickFormation-OperNameFlagBase": {
         "template": "empty.png",
@@ -5548,17 +5666,6 @@
         "baseTask": "SwipeToTheLeft",
         "specificRect": [400, 350, 20, 20],
         "rectMove": [1150, 350, 20, 20]
-    },
-    "BattleFormationOperListSlowlySwipeToTheRight": {
-        "baseTask": "SlowlySwipeToTheRight",
-        "specificRect": [1100, 350, 20, 20],
-        "rectMove": [400, 350, 20, 20],
-        "postDelay": 500
-    },
-    "BattleFormationOperListSwipeToTheLeft": {
-        "baseTask": "SwipeToTheLeft",
-        "specificRect": [400, 350, 20, 20],
-        "rectMove": [1100, 350, 20, 20]
     },
     "ScreenshotTaskPlugin-Config": {
         "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
@@ -6212,26 +6319,15 @@
         "roi": [740, 565, 300, 65],
         "preDelay": 200
     },
-    "UseSupportUnit-Cancel": {
-        "doc": "若识别到 <招募助战> 文字就点击屏幕下方取消选择",
-        "baseTask": "RecruitSupportConfirm",
-        "action": "ClickRect",
-        "specificRect": [640, 700, 0, 0],
-        "postDelay": 500
-    },
-    "UseSupportUnit-Confirm": {
-        "doc": "识别 <招募助战> 文字并点击",
-        "baseTask": "RecruitSupportConfirm"
-    },
-    "UseSupportUnit-Enter": {
+    "UseSupportUnit-EnterSupportList": {
         "doc": "通过点击编队界面右上角 <助战单位> 文字左边的 Icon 进入助战列表",
         "roi": [1023, 314, 46, 50],
         "action": "ClickSelf",
-        "next": ["UseSupportUnit-Enter@NextAfterLoadingText", "UseSupportUnit-InSupportList"]
+        "next": ["UseSupportUnit-EnterSupportList@NextAfterLoadingText", "UseSupportUnit-InSupportList"]
     },
     "UseSupportUnit-InSupportList": {
         "doc": "通过识别右上角 <更新助战列表> 文字左边的 Icon 或者 冷却倒计时左边的 Icon 判断是否已进入助战列表",
-        "template": ["UseSupportUnit-Refresh", "UseSupportUnit-RefreshCooldown"],
+        "template": ["SupportList-Refresh", "SupportList-RefreshCooldown"],
         "roi": [1096, 12, 61, 52]
     },
     "UseSupportUnit-LeaveSupportList": {
@@ -6241,98 +6337,116 @@
     },
     "UseSupportUnit-LeaveSupportList-InSupportList": {
         "baseTask": "UseSupportUnit-InSupportList",
-        "template": ["UseSupportUnit-Refresh", "UseSupportUnit-RefreshCooldown"],
+        "template": ["SupportList-Refresh", "SupportList-RefreshCooldown"],
         "next": ["UseSupportUnit-ReturnButton"]
-    },
-    "UseSupportUnit-MaxSpecLvl-1": {
-        "template": "UseSupportUnit-MaxSpecLvl.png",
-        "roi": [736, 251, 24, 22]
-    },
-    "UseSupportUnit-MaxSpecLvl-2": {
-        "template": "UseSupportUnit-MaxSpecLvl.png",
-        "roi": [851, 251, 24, 22]
-    },
-    "UseSupportUnit-MaxSpecLvl-3": {
-        "template": "UseSupportUnit-MaxSpecLvl.png",
-        "roi": [966, 251, 24, 22]
-    },
-    "UseSupportUnit-Refresh": {
-        "roi": [1096, 12, 61, 52],
-        "preDelay": 500,
-        "action": "ClickSelf",
-        "next": ["UseSupportUnit-Refresh@NextAfterLoadingText", "Stop"]
-    },
-    "UseSupportUnit-RefreshCooldown": {
-        "roi": [1096, 12, 61, 52],
-        "postDelay": 1000,
-        "next": ["UseSupportUnit-RefreshSupportList"]
-    },
-    "UseSupportUnit-RefreshSupportList": {
-        "doc": "更新助战列表，如果识别到冷却倒计时则等待倒计时结束后再点击 <更新助战列表> 按钮",
-        "algorithm": "JustReturn",
-        "next": ["UseSupportUnit-Refresh", "UseSupportUnit-RefreshCooldown"]
     },
     "UseSupportUnit-ReturnButton": {
         "baseTask": "ReturnButton",
         "template": ["Return.png"],
         "next": ["UseSupportUnit-LeaveSupportList#next"]
     },
-    "UseSupportUnit-Role": {
-        "doc": "模版任务: 招募助战干员时选择职业，若当前职业正确则不进行额外操作",
-        "algorithm": "JustReturn",
-        "next": ["UseSupportUnit-RoleSelected", "UseSupportUnit-SelectRole"]
+    "SupportList-MaxSpecLvl-1": {
+        "template": "SupportList-MaxSpecLvl.png",
+        "roi": [736, 251, 24, 22]
     },
-    "UseSupportUnit-RoleSelected": {
+    "SupportList-MaxSpecLvl-2": {
+        "template": "SupportList-MaxSpecLvl.png",
+        "roi": [851, 251, 24, 22]
+    },
+    "SupportList-MaxSpecLvl-3": {
+        "template": "SupportList-MaxSpecLvl.png",
+        "roi": [966, 251, 24, 22]
+    },
+    "SupportList-MaxSkillLvl-1": {
+        "template": ["SupportList-MaxSkillLvl-Black.png", "SupportList-MaxSkillLvl-Red.png"],
+        "roi": [736, 251, 24, 22]
+    },
+    "SupportList-MaxSkillLvl-2": {
+        "template": ["SupportList-MaxSkillLvl-Black.png", "SupportList-MaxSkillLvl-Red.png"],
+        "roi": [851, 251, 24, 22]
+    },
+    "SupportList-MaxSkillLvl-3": {
+        "template": ["SupportList-MaxSkillLvl-Black.png", "SupportList-MaxSkillLvl-Red.png"],
+        "roi": [966, 251, 24, 22]
+    },
+    "SupportList-SelectSkill-1": {
+        "template": "SupportList-SelectSkill.png",
+        "action": "ClickSelf",
+        "roi": [781, 320, 66, 38]
+    },
+    "SupportList-SelectSkill-2": {
+        "template": "SupportList-SelectSkill.png",
+        "action": "ClickSelf",
+        "roi": [900, 320, 64, 38]
+    },
+    "SupportList-SelectSkill-3": {
+        "template": "SupportList-SelectSkill.png",
+        "action": "ClickSelf",
+        "roi": [1010, 320, 70, 38]
+    },
+    "SupportList-Confirm": {
+        "doc": "识别 <招募助战> 文字并点击",
+        "baseTask": "RecruitSupportConfirm"
+    },
+    "SupportList-Cancel": {
+        "doc": "若识别到 <招募助战> 文字就点击屏幕下方取消选择",
+        "baseTask": "RecruitSupportConfirm",
+        "action": "ClickRect",
+        "specificRect": [640, 700, 0, 0],
+        "postDelay": 500
+    },
+    "SupportList-SwipeToTheLeft": {
+        "baseTask": "SwipeToTheLeft",
+        "postDelay": 1000
+    },
+    "SupportList-SwipeToTheRight": {
+        "baseTask": "SwipeToTheRight",
+        "postDelay": 1000
+    },
+    "SupportList-Refresh": {
+        "roi": [1096, 12, 61, 52],
+        "preDelay": 500,
+        "action": "ClickSelf",
+        "next": ["SupportList-Refresh@NextAfterLoadingText", "Stop"]
+    },
+    "SupportList-RefreshCooldown": {
+        "roi": [1096, 12, 61, 52],
+        "postDelay": 1000,
+        "next": ["SupportList-CooldownThenRefresh#next"]
+    },
+    "SupportList-CooldownThenRefresh": {
+        "doc": "更新助战列表，如果识别到冷却倒计时则等待倒计时结束后再点击 <更新助战列表> 按钮",
+        "algorithm": "JustReturn",
+        "next": ["SupportList-Refresh", "SupportList-RefreshCooldown"]
+    },
+    "SupportList-RoleSelected": {
         "doc": "模版任务: 招募助战干员时通过深色背景的职业图标判断当前职业是否正确，Ccoeff 应该够用，若出问题可以考虑换为 RGBCount",
         "template": "empty.png",
         "roi": [20, 93, 73, 608]
     },
-    "UseSupportUnit-SelectRole": {
+    "SupportList-SelectRole": {
         "doc": "模版任务: 招募助战干员时通过点击浅色背景的职业图标切换职业",
         "template": "empty.png",
         "roi": [20, 93, 73, 608],
         "action": "ClickSelf",
-        "next": ["UseSupportUnit-Role@NextAfterLoadingText"]
+        "next": ["SupportList-SelectRole@NextAfterLoadingText", "SupportList-RoleSelected", "SupportList-SelectRole"]
     },
-    "UseSupportUnit-SelectSkill-1": {
-        "template": "UseSupportUnit-SelectSkill.png",
-        "action": "ClickSelf",
-        "roi": [781, 320, 66, 38]
-    },
-    "UseSupportUnit-SelectSkill-2": {
-        "template": "UseSupportUnit-SelectSkill.png",
-        "action": "ClickSelf",
-        "roi": [900, 320, 64, 38]
-    },
-    "UseSupportUnit-SelectSkill-3": {
-        "template": "UseSupportUnit-SelectSkill.png",
-        "action": "ClickSelf",
-        "roi": [1010, 320, 70, 38]
-    },
-    "UseSupportUnit-SwipeToTheLeft": {
-        "baseTask": "SwipeToTheLeft",
-        "postDelay": 1000
-    },
-    "UseSupportUnit-SwipeToTheRight": {
-        "baseTask": "SwipeToTheRight",
-        "postDelay": 1000
-    },
-    "Caster@UseSupportUnit-RoleSelected": {},
-    "Caster@UseSupportUnit-SelectRole": {},
-    "Medic@UseSupportUnit-RoleSelected": {},
-    "Medic@UseSupportUnit-SelectRole": {},
-    "Pioneer@UseSupportUnit-RoleSelected": {},
-    "Pioneer@UseSupportUnit-SelectRole": {},
-    "Sniper@UseSupportUnit-RoleSelected": {},
-    "Sniper@UseSupportUnit-SelectRole": {},
-    "Special@UseSupportUnit-RoleSelected": {},
-    "Special@UseSupportUnit-SelectRole": {},
-    "Support@UseSupportUnit-RoleSelected": {},
-    "Support@UseSupportUnit-SelectRole": {},
-    "Tank@UseSupportUnit-RoleSelected": {},
-    "Tank@UseSupportUnit-SelectRole": {},
-    "Warrior@UseSupportUnit-RoleSelected": {},
-    "Warrior@UseSupportUnit-SelectRole": {},
+    "Caster@SupportList-RoleSelected": {},
+    "Caster@SupportList-SelectRole": {},
+    "Medic@SupportList-RoleSelected": {},
+    "Medic@SupportList-SelectRole": {},
+    "Pioneer@SupportList-RoleSelected": {},
+    "Pioneer@SupportList-SelectRole": {},
+    "Sniper@SupportList-RoleSelected": {},
+    "Sniper@SupportList-SelectRole": {},
+    "Special@SupportList-RoleSelected": {},
+    "Special@SupportList-SelectRole": {},
+    "Support@SupportList-RoleSelected": {},
+    "Support@SupportList-SelectRole": {},
+    "Tank@SupportList-RoleSelected": {},
+    "Tank@SupportList-SelectRole": {},
+    "Warrior@SupportList-RoleSelected": {},
+    "Warrior@SupportList-SelectRole": {},
     "Roguelike": {
         "template": [
             "Terminal.png",

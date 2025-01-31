@@ -6,8 +6,13 @@ from pathlib import Path
 def sort_tasks(res: dict[str, any]):
     # 暂时只对 Roguelike 和 Reclamation 任务进行类字典序排序，其他任务保持原有相对顺序
     classified_lists = {
+        "BattleFormation...": [],
+        "...@BattleFormation...": [],
+        "OperList...": [],
+        "...@OperList...": [],
         "UseSupportUnit...": [],
-        "...@UseSupportUnit...": [],
+        "SupportList...": [],
+        "...@SupportList...": [],
         "Roguelike...": [],
         "Roguelike@...": [],
         "Phantom@Roguelike...": [],
@@ -24,8 +29,13 @@ def sort_tasks(res: dict[str, any]):
     unclassified_list = []
 
     classify_rules: list[tuple[str, list]] = [
+        (r"^BattleFormation", classified_lists["BattleFormation..."]),
+        (r"^(\w+)@BattleFormation", classified_lists["...@BattleFormation..."]),
+        (r"^OperList", classified_lists["OperList..."]),
+        (r"^(\w+)@OperList", classified_lists["...@OperList..."]),
         (r"^UseSupportUnit", classified_lists["UseSupportUnit..."]),
-        (r"^(\w+)@UseSupportUnit", classified_lists["...@UseSupportUnit..."]),
+        (r"^SupportList", classified_lists["SupportList..."]),
+        (r"^(\w+)@SupportList", classified_lists["...@SupportList..."]),
         (r"^Roguelike@", classified_lists["Roguelike@..."]),
         (r"^Roguelike", classified_lists["Roguelike..."]),
         (r"^Phantom@Roguelike", classified_lists["Phantom@Roguelike..."]),

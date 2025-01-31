@@ -441,7 +441,10 @@
     <ClInclude Include="Task\Miscellaneous\BattleFormationTask.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\UseSupportUnitTaskPlugin.h">
+    <ClInclude Include="Task\Miscellaneous\SupportList.h">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\OperList.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Task\Miscellaneous\BattleProcessTask.h">
@@ -734,6 +737,9 @@
     <ClInclude Include="LDExtras.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\Battle\OperListAnalyzer.h">
+      <Filter>Source\Vision\Battle</Filter>
+    </ClInclude>
     <ClInclude Include="Vision\Battle\SupportListAnalyzer.h">
       <Filter>Source\Vision\Battle</Filter>
     </ClInclude>
@@ -979,7 +985,10 @@
     <ClCompile Include="Task\Miscellaneous\BattleFormationTask.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Miscellaneous\UseSupportUnitTaskPlugin.cpp">
+    <ClCompile Include="Task\Miscellaneous\SupportList.cpp">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\OperList.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\BattleProcessTask.cpp">
@@ -1250,6 +1259,9 @@
     </ClCompile>
     <ClCompile Include="LDExtras.cpp">
       <Filter>Source\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Battle\OperListAnalyzer.cpp">
+      <Filter>Source\Vision\Battle</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Battle\SupportListAnalyzer.cpp">
       <Filter>Source\Vision\Battle</Filter>

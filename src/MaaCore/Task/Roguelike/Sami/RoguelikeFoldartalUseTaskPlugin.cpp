@@ -86,7 +86,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 
     std::vector<RoguelikeFoldartalCombination> combination = RoguelikeFoldartal.get_combination(m_config->get_theme());
 
-    auto foldartal_list = m_config->get_foldartal();
+    auto foldartal_list = m_config->m_status.foldartal_list;
     Log.trace("All foldartal got yet:", foldartal_list);
     auto filter = views::filter([&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
     for (const auto& comb : combination | filter) {
@@ -95,7 +95,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
         }
         use_enable_pair(foldartal_list, comb);
     }
-    m_config->set_foldartal(std::move(foldartal_list));
+    m_config->m_status.foldartal_list = std::move(foldartal_list);
     return true;
 }
 

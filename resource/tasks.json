@@ -8023,6 +8023,8 @@
         "Doc": "点了开始行动之后，可能会网络不好一直loading，用这个任务等一会",
         "template": "Roguelike@QuickFormation.png",
         "roi": [817, 0, 402, 146],
+        "maxTimes": 200,
+        "postDelay": 600,
         "next": ["Roguelike@WaitForStartButtonClicked"]
     },
     "Phantom@Roguelike@Abandon": {},

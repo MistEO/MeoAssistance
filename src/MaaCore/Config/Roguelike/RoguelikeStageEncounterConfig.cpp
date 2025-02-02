@@ -10,15 +10,16 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
 
     const std::string theme = json.at("theme").as_string();
 
-    // m_event[(肉鸽主题,模式)] 默认继承 m_event["(肉鸽主题,std::nullopt)"]
-    std::pair<std::string, int> key = std::make_pair(theme, -1);
+    // 未指定适用模式（即 mode 字段为空）的配置将作为默认配置，以 (theme, DEFAULT_MODE_PLACEHOLDER) 为 key
+    // 对于具体模式 mode，其专用配置，以 (theme, mode) 为 key，将继承默认配置
+    const std::pair<std::string, int> default_config_key = std::make_pair(theme, DEFAULT_MODE_PLACEHOLDER);
     std::vector<int> modes = json.get("mode", std::vector<int> {});
     std::unordered_map<std::string, RoguelikeEvent> events;
+
+    // 若 modes 为空，则认为当前正在加载默认配置
+    // 否则，认为当前正在加载模式专用配置，复制当前的默认配置作为基础
     if (!modes.empty()) {
-        events = m_events.at(key);
-    }
-    else {
-        modes.emplace_back(-1);
+        events = m_events.at(default_config_key);
     }
 
     std::vector<std::string>& event_names = m_event_names[theme];
@@ -26,7 +27,7 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
     for (const auto& event_json : json.at("stage").as_array()) {
         RoguelikeEvent event;
         event.name = event_json.at("name").as_string();
-        if (std::find(event_names.begin(), event_names.end(), event.name) == event_names.end()) {
+        if (ranges::find(event_names, event.name) == event_names.end()) {
             event_names.emplace_back(event.name);
         }
         event.option_num = event_json.get("option_num", 0);
@@ -56,11 +57,55 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
         events[event.name] = std::move(event);
     }
 
-    for (int mode : modes) {
-        key = std::make_pair(theme, mode);
-        m_events[key] = events;
+    // 注意，理论上默认配置与具体模式的配置都可以被多次加载、覆盖，但我目前没有想到这样做的意义
+    if (modes.empty()) { // 存储通用配置
+        // 防止重复加载
+        if (m_events.contains(default_config_key)) {
+            Log.error(__FUNCTION__, "| Default configuration for theme", theme, "has already exist!");
+            return false;
+        }
+        m_events[default_config_key] = events;
+    }
+    else { // 存储模式专用配置
+        for (int mode : modes) {
+            const std::pair<std::string, int> key = std::make_pair(theme, mode);
+            // 防止重复加载
+            if (m_events.contains(key)) {
+                Log.error(__FUNCTION__, "| Configuration for theme", theme, "and mode", mode, "has already exist!");
+                return false;
+            }
+            m_events[key] = events;
+        }
     }
 
+    return true;
+}
+
+bool asst::RoguelikeStageEncounterConfig::set_event(
+    const std::string& theme,
+    const RoguelikeMode mode,
+    const std::string& event_name,
+    const int choose,
+    const int option_num)
+{
+    std::pair<std::string, int> key = std::make_pair(theme, static_cast<int>(mode));
+    if (theme == "Sarkaz" || theme == "Sami") {
+        // 在调试器里发现 m_events 中，Sami 和 Sarkaz 的 mode 只有 -1
+        key.second = -1;
+    }
+    // 边界检查
+    auto outerIt = m_events.find(key);
+    if (outerIt == m_events.end()) {
+        return false;
+    }
+    auto& innerMap = outerIt->second;
+    auto innerIt = innerMap.find(event_name);
+    if (innerIt == innerMap.end()) {
+        return false;
+    }
+    // 修改事件选择
+    m_events[key][event_name].default_choose = choose;
+    m_events[key][event_name].option_num = option_num;
     return true;
 }
 

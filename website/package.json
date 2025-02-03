@@ -17,7 +17,7 @@
   },
   "private": true,
   "devDependencies": {
-    "prettier": "^2.6.2",
+    "prettier": "^2.8.8",
     "turbo": "^2.3.3"
   },
   "packageManager": "pnpm@9.5.0"

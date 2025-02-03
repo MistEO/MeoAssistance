@@ -10849,7 +10849,12 @@
     "Sarkaz@Roguelike@StageBoonsEnter": {
         "template": "Sarkaz@Roguelike@StageTraderEnter.png",
         "baseTask": "Sarkaz@Roguelike@StageEnter",
-        "next": ["Sarkaz@Roguelike@StageBoonsEnter", "Sarkaz@Roguelike@StageEncounterJudgeClick"]
+        "next": [
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "Sarkaz@Roguelike@StageBoonsEnter",
+            "Sarkaz@Roguelike@StageEncounterJudgeClick"
+        ]
     },
     "Sarkaz@Roguelike@StageBoskyPassage": {
         "Doc": "思维边界",
@@ -10872,7 +10877,12 @@
                 [138, 180, 180]
             ]
         ],
-        "next": ["Sarkaz@Roguelike@StageBoskyPassageEnter", "Sarkaz@Roguelike@StageEncounterJudgeClick"]
+        "next": [
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "Sarkaz@Roguelike@StageBoskyPassageEnter",
+            "Sarkaz@Roguelike@StageEncounterJudgeClick"
+        ]
     },
     "Sarkaz@Roguelike@StageBurdenOperation": {
         "doc": "#next 放入 Sarkaz@Roguelike@Stages 系列任务中，通过 set_task_base 启用/禁用 <思维负荷干员编队功能>",
@@ -10949,6 +10959,11 @@
                 [130, 130, 40],
                 [131, 180, 180]
             ]
+        ],
+        "next": [
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "Sarkaz@Roguelike@QuickFormation"
         ]
     },
     "Sarkaz@Roguelike@StageConfrontation": {
@@ -10971,9 +10986,20 @@
         ]
     },
     "Sarkaz@Roguelike@StageDreadfulFoe-5Enter": {
-        "baseTask": "Sarkaz@Roguelike@StageEnterBattle"
+        "baseTask": "Sarkaz@Roguelike@StageEnterBattle",
+        "next": [
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "Sarkaz@Roguelike@QuickFormation"
+        ]
     },
-    "Sarkaz@Roguelike@StageDreadfulFoeEnter": {},
+    "Sarkaz@Roguelike@StageDreadfulFoeEnter": {
+        "next": [
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "Sarkaz@Roguelike@QuickFormation"
+        ]
+    },
     "Sarkaz@Roguelike@StageEmergencyDps": {
         "templThreshold": 0.95,
         "postDelay": 600,
@@ -10984,7 +11010,13 @@
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
-    "Sarkaz@Roguelike@StageEmergencyDpsEnter": {},
+    "Sarkaz@Roguelike@StageEmergencyDpsEnter": {
+        "next": [
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "Sarkaz@Roguelike@QuickFormation"
+        ]
+    },
     "Sarkaz@Roguelike@StageEmergencyTransportation": {
         "Doc": "先行一步，拒绝可以获取2希望",
         "baseTask": "Sarkaz@Roguelike@Stage",
@@ -11000,7 +11032,15 @@
     "Sarkaz@Roguelike@StageEncounter": {
         "templThreshold": 0.96
     },
-    "Sarkaz@Roguelike@StageEncounterEnter": {},
+    "Sarkaz@Roguelike@StageEncounterEnter": {
+        "next": [
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "Sarkaz@Roguelike@StageVerticalConfirmEncounter",
+            "Sarkaz@Roguelike@StageEncounterEnter",
+            "Sarkaz@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
     "Sarkaz@Roguelike@StageEncounterLeaveConfirm": {},
     "Sarkaz@Roguelike@StageEncounterOptionFree": {},
     "Sarkaz@Roguelike@StageEncounterOptionLeave": {},
@@ -11024,6 +11064,42 @@
     "Sarkaz@Roguelike@StageEncounterSpecialClose": {},
     "Sarkaz@Roguelike@StageEnterBattleAgain": {
         "specificRect": [1100, 558, 111, 50]
+    },
+    "Sarkaz@Roguelike@StageEnterWithChaos": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["本次探险不再提示"],
+        "roi": [484, 353, 310, 61],
+        "next": ["Sarkaz@Roguelike@StageEnterWithChaosConfirm", "Sarkaz@Roguelike@StageEnterWithChaos"]
+    },
+    "Sarkaz@Roguelike@StageEnterWithChaosConfirm": {
+        "action": "ClickRect",
+        "roi": [480, 319, 130, 133],
+        "method": "RGBCount",
+        "colorScales": [
+            [
+                [180, 95, 85],
+                [190, 100, 90]
+            ],
+            [
+                [137, 49, 39],
+                [142, 54, 44]
+            ],
+            [
+                [160, 160, 160],
+                [175, 175, 175]
+            ]
+        ],
+        "specificRect": [935, 458, 55, 57],
+        "next": ["Sarkaz@Roguelike@StageEnterWithChaosConfirm", "#back"]
+    },
+    "Sarkaz@Roguelike@StageEnterWithRetardation": {
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "text": ["无法进入节点"],
+        "roi": [484, 353, 310, 61],
+        "specificRect": [935, 458, 55, 57],
+        "next": ["Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1", "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"]
     },
     "Sarkaz@Roguelike@StageFilterTruth": {
         "Doc": "去伪存真",
@@ -11081,6 +11157,8 @@
         ],
         "postDelay": 1500,
         "next": [
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
             "Sarkaz@Roguelike@StageFilterTruthCloseCollection",
             "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
             "Sarkaz@Roguelike@StageFilterTruthEnter",
@@ -11201,7 +11279,12 @@
                 [107, 160, 180]
             ]
         ],
-        "next": ["Sarkaz@Roguelike@StageSafeHouseEnter", "Sarkaz@Roguelike@StageEncounterJudgeClick"]
+        "next": [
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
+            "Sarkaz@Roguelike@StageSafeHouseEnter",
+            "Sarkaz@Roguelike@StageEncounterJudgeClick"
+        ]
     },
     "Sarkaz@Roguelike@StageSafeHouseHD": {
         "Doc": "已深化",
@@ -11241,6 +11324,8 @@
             ]
         ],
         "next": [
+            "#self@Sarkaz@Roguelike@StageEnterWithChaos",
+            "#self@Sarkaz@Roguelike@StageEnterWithRetardation",
             "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionClose",
             "Sarkaz@Roguelike@StageTraderEnter-CloseCollectionContinue",
             "Sarkaz@Roguelike@StageVerticalConfirmTrader",

@@ -131,7 +131,5 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::gain_stage_award()
 
 void asst::RoguelikeFoldartalGainTaskPlugin::gain_foldartal(std::string name)
 {
-    auto foldartal_list = m_config->get_foldartal();
-    foldartal_list.emplace_back(std::move(name));
-    m_config->set_foldartal(std::move(foldartal_list));
+    m_config->status().foldartal_list.emplace_back(std::move(name));
 }

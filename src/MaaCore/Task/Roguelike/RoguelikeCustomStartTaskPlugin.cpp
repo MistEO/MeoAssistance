@@ -17,6 +17,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
+
     const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;

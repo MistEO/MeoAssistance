@@ -66,13 +66,13 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         }
     }
 
-    if (m_config->get_oper().empty()) {
+    if (m_config->status().opers.empty()) {
         std::unordered_map<std::string, RoguelikeOper> opers;
         for (const auto& [name, skill_vec] : analyzer.get_result()) {
             opers[name] = { .elite = 1, .level = 80 };
             // 不知道是啥等级随便填一个
         }
-        m_config->set_oper(std::move(opers));
+        m_config->status().opers = std::move(opers);
     }
 
     if (analyzer.get_team_full() && !has_rookie) {

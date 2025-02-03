@@ -72,7 +72,7 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::_run()
 
 bool asst::RoguelikeFoldartalStartTaskPlugin::check_foldartals()
 {
-    const auto& all_foldartal = m_config->get_foldartal();
+    const auto& all_foldartal = m_config->status().foldartal_list;
 
     // 查找板子
     for (const auto& foldartal : m_start_foldartal_list) {

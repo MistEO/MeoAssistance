@@ -273,7 +273,7 @@ asst::battle::OperPosition asst::RoguelikeBattleTaskPlugin::get_role_position(co
 
 void asst::RoguelikeBattleTaskPlugin::cache_oper_elite_status()
 {
-    const auto& oper_list = m_config->get_oper();
+    const auto& oper_list = m_config->status().opers;
     for (const auto& oper : m_cur_deployment_opers) {
         m_oper_elite.emplace(oper.name, oper_list.contains(oper.name) ? oper_list.at(oper.name).elite : 0);
     }

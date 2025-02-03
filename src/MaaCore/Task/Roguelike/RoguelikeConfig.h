@@ -42,6 +42,27 @@ struct RoguelikeOper
     int level = 0; // 干员等级
 };
 
+struct RoguelikeStatus
+{
+public:
+    int hope = 0;                                         // 当前希望
+    int hp = 0;                                           // 当前生命值
+    int floor = 0;                                        // 当前到达层数
+    int formation_upper_limit = 6;                        // 当前编队上限
+
+    std::unordered_map<std::string, RoguelikeOper> opers; // 干员精英&等级
+    std::vector<std::string> collections;                 // 已获得的藏品
+
+    // ------------------ 萨米 ------------------
+    int chaos = 0;                           // 抗干扰指数
+    std::vector<std::string> foldartal_list; // 所有已获得密文板
+
+    // ------------------ 萨卡兹 ------------------
+    int idea_count = 0;         // 构想数量
+    int burden_number = 0;      // 负荷
+    int burden_upper_limit = 3; // 负荷上限
+};
+
 class RoguelikeConfig
 {
 public:
@@ -161,19 +182,11 @@ public:
 
     bool get_use_nonfriend_support() const { return m_use_nonfriend_support; }
 
-    void set_oper(std::unordered_map<std::string, RoguelikeOper> oper) { m_oper = std::move(oper); }
-
-    const auto& get_oper() const { return m_oper; }
-
-    void set_collection(std::vector<std::string> collection) { m_collection = std::move(collection); }
-
-    const auto& get_collection() const { return m_collection; }
-
-    void set_floor(int floor) { m_floor = floor; }
-
-    int get_floor() const { return m_floor; }
+    auto& status() { return m_status; }
 
 private:
+    RoguelikeStatus m_status; // 局内状态
+
     // ------------------ 招募 ------------------
     bool m_team_full_without_rookie = false; // 编队内没有预干员
 
@@ -181,45 +194,8 @@ private:
     bool m_trader_no_longer_buy = false; // 不再购买藏品
 
     // ------------------ 开局 ------------------
-    std::string m_core_char;                               // 开局干员名
-    bool m_use_support = false;                            // 开局干员是否为助战干员
-    bool m_use_nonfriend_support = false;                  // 是否可以是非好友助战干员
-
-    std::unordered_map<std::string, RoguelikeOper> m_oper; // 干员精英&等级
-    std::vector<std::string> m_collection;                 // 已获得的藏品
-    int m_hope = 0;                                        // 当前希望
-    int m_hp = 0;                                          // 当前生命值
-    int m_floor = 0;                                       // 当前到达层数
-    int m_formation_upper_limit = 6;                       // 当前编队上限
-
-public:
-    // ------------------ 密文板 ------------------
-    void set_foldartal(auto foldartal) { m_foldartal = std::move(foldartal); }
-
-    const auto& get_foldartal() const { return m_foldartal; }
-
-private:
-    int m_chaos = 0; // 抗干扰指
-    // ------------------ 密文板 ------------------
-    std::vector<std::string> m_foldartal; // 所有已获得密文板
-
-    // =========================== 萨卡兹主题专用参数 ===========================
-public:
-    void set_idea_count(int idea_count) { m_idea_count = idea_count; }
-
-    int get_idea_count() const { return m_idea_count; }
-
-    void set_burden_number(int burden_number) { m_burden_number = burden_number; }
-
-    int get_burden_number() const { return m_burden_number; }
-
-    void set_burden_upper_limit(int burden_upper_limit) { m_burden_upper_limit = burden_upper_limit; }
-
-    int get_burden_upper_limit() const { return m_burden_upper_limit; }
-
-private:
-    int m_idea_count = 0;         // 构想数量
-    int m_burden_number = 0;      // 负荷
-    int m_burden_upper_limit = 3; // 负荷上限
+    std::string m_core_char;              // 开局干员名
+    bool m_use_support = false;           // 开局干员是否为助战干员
+    bool m_use_nonfriend_support = false; // 是否可以是非好友助战干员
 };
 } // namespace asst

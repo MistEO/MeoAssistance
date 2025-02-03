@@ -60,7 +60,7 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
     std::unordered_map<battle::Role, size_t> map_wait_promotion;
     size_t total_wait_promotion = 0;
     std::unordered_set<std::string> chars_list;
-    for (const auto& [name, oper] : m_config->get_oper()) {
+    for (const auto& [name, oper] : m_config->status().opers) {
         int elite = oper.elite;
         int level = oper.level;
         Log.info(name, elite, level);
@@ -185,16 +185,12 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
         if (m_config->get_theme() == RoguelikeTheme::Sami) {
             auto iter = std::find(all_foldartal.begin(), all_foldartal.end(), goods.name);
             if (iter != all_foldartal.end()) {
-                auto foldartal = m_config->get_foldartal();
                 // 把goods.name存到密文板overview里
-                foldartal.emplace_back(goods.name);
-                m_config->set_foldartal(std::move(foldartal));
+                m_config->status().foldartal_list.emplace_back(goods.name);
             }
         }
-        std::vector<std::string> owned_collection = m_config->get_collection();
         // 把goods.name存到已获得藏品里
-        owned_collection.emplace_back(goods.name);
-        m_config->set_collection(std::move(owned_collection));
+        m_config->status().collections.emplace_back(goods.name);
         if (goods.no_longer_buy) {
             m_config->set_trader_no_longer_buy(true);
         }

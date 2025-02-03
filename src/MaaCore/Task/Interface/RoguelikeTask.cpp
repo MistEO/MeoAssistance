@@ -166,6 +166,16 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
             }
         }
     }
+    if (theme == RoguelikeTheme::Sarkaz) {
+        // 刷等级选择美愿
+        if (params.get("choose_beautiful_wish", false)) {
+            RoguelikeStageEncounter.set_event(theme, mode, "相遇", 3, 4);
+        }
+        else {
+            // 若取消勾选，需要重新设为希望时代的涂鸦
+            RoguelikeStageEncounter.set_event(theme, mode, "相遇", 1, 4);
+        }
+    }
 
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", params.get("starts_count", INT_MAX));
     // 通过 exceededNext 禁用投资系统，进入商店购买逻辑

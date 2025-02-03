@@ -19,7 +19,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::load_params(const json::value& 
     }
 
     // 根据 params 设置插件专用参数
-    const RoguelikeMode& mode = m_config->get_mode();
+    const RoguelikeMode mode = m_config->get_mode();
     if (!params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS)) {
         return false;
     }

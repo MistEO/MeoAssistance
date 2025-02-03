@@ -230,6 +230,15 @@
             </CheckBox>
             <CheckBox
                 Margin="0,10"
+                IsChecked="{Binding RoguelikeChooseBeautifulWishRaw}"
+                Visibility="{c:Binding 'RoguelikeMode == &quot;0&quot; and RoguelikeTheme == &quot;Sarkaz&quot; and (ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot;)'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeChooseBeautifulWish}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
                 IsChecked="{Binding RoguelikeStopAtFinalBoss}"
                 Visibility="{c:Binding 'RoguelikeMode == &quot;0&quot;'}">
                 <TextBlock

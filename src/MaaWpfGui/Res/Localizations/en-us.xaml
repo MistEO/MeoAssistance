@@ -144,6 +144,7 @@
     <system:String x:Key="RoguelikeCollapseListTip">Separate with ";". Leave blank to use the default list.</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
+    <system:String x:Key="RoguelikeChooseBeautifulWish">相遇选择美愿（通关一次以解锁美愿）</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort Auto IS until the end of battle</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">Stop before final boss</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">Stop when max level is achieved</system:String>

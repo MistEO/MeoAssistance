@@ -144,6 +144,7 @@
     <system:String x:Key="RoguelikeCollapseListTip">英語のセミコロン「;」で区切る、空白のままにするとデフォルトリストが使用されます。</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「最初のオペレーター」をサポートから選択</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">戦友以外のサポートの使用を許可</system:String>
+    <system:String x:Key="RoguelikeChooseBeautifulWish">相遇选择美愿（通关一次以解锁美愿）</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">自動ローグ 戦闘終了まえに「停止」を遅らせる</system:String>
     <system:String x:Key="RoguelikeStopAtFinalBoss">第5階層のボスの手前で一時停止する</system:String>
     <system:String x:Key="RoguelikeStopAtMaxLevel">最大レベル達成時に停止</system:String>

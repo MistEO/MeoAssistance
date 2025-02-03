@@ -15,7 +15,7 @@ class RoguelikeStageEncounterConfig final : public SingletonHolder<RoguelikeStag
 public:
     virtual ~RoguelikeStageEncounterConfig() override = default;
 
-    const auto& get_events(const std::string& theme, const RoguelikeMode& mode) const noexcept
+    const auto& get_events(const std::string& theme, const RoguelikeMode mode) const noexcept
     {
         std::pair<std::string, int> key = std::make_pair(theme, static_cast<int>(mode));
         if (!m_events.contains(key)) {
@@ -26,28 +26,12 @@ public:
 
     const auto& get_event_names(const std::string& theme) const noexcept { return m_event_names.at(theme); }
 
-    bool set_event(std::string theme, RoguelikeMode mode, std::string event_name, int choose, int option_num)
-    {
-        std::pair<std::string, int> key = std::make_pair(theme, static_cast<int>(mode));
-        if (theme == "Sarkaz" || theme == "Sami") {
-            // 在调试器里发现 m_events 中，Sami 和 Sarkaz 的 mode 只有 -1
-            key.second = -1;
-        }
-        // 边界检查
-        auto outerIt = m_events.find(key);
-        if (outerIt == m_events.end()) {
-            return false;
-        }
-        auto& innerMap = outerIt->second;
-        auto innerIt = innerMap.find(event_name);
-        if (innerIt == innerMap.end()) {
-            return false;
-        }
-        // 修改事件选择
-        m_events[key][event_name].default_choose = choose;
-        m_events[key][event_name].option_num = option_num;
-        return true;
-    }
+    bool set_event(
+        const std::string& theme,
+        RoguelikeMode mode,
+        const std::string& event_name,
+        int choose,
+        int option_num);
 
     enum class ComparisonType
     {
@@ -90,6 +74,16 @@ private:
         std::pair_hash<std::string, int>>
         m_events;
     std::unordered_map<std::string, std::vector<std::string>> m_event_names;
+
+    std::unordered_map<
+        std::pair<std::string, int>,
+        std::unordered_map<std::string, RoguelikeEvent>,
+        PairHash<std::string, int>>
+        m_events_temp;
+
+    // 未指定适用模式（即 mode 字段为空）的配置将作为默认配置，以 "(theme, DEFAULT_MODE_PLACEHOLDER)" 为 key
+    // 对于具体模式 mode，其专用配置，以 (theme, mode) 为 key，将继承默认配置
+    static constexpr int DEFAULT_MODE_PLACEHOLDER = -1;
 };
 
 inline static auto& RoguelikeStageEncounter = RoguelikeStageEncounterConfig::get_instance();

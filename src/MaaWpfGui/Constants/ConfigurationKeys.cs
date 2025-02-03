@@ -147,6 +147,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeStopAtFinalBoss = "Roguelike.ExitAtFinalBoss";
         public const string RoguelikeStopAtMaxLevel = "Roguelike.StopAtMaxLevel";
         public const string RoguelikeStartWithSeed = "Roguelike.StartWithSeed";
+        public const string RoguelikeChooseBeautifulWish = "Roguelike.ChooseBeautifulWish";
         public const string RoguelikeMonthlySquadAutoIterate = "Roguelike.MonthlySquadAutoIterate";
         public const string RoguelikeMonthlySquadCheckComms = "Roguelike.MonthlySquadCheckComms";
         public const string RoguelikeDeepExplorationAutoIterate = "Roguelike.DeepExplorationAutoIterate";

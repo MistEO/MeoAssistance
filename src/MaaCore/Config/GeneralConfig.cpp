@@ -89,6 +89,7 @@ bool asst::GeneralConfig::parse(const json::value& json)
         adb.display = cfg_json.get("display", base_cfg.display);
         adb.screencap_raw_with_gzip = cfg_json.get("screencapRawWithGzip", base_cfg.screencap_raw_with_gzip);
         adb.screencap_raw_by_nc = cfg_json.get("screencapRawByNC", base_cfg.screencap_raw_by_nc);
+        adb.dcr_screencap_addr = cfg_json.get("screencapRawByDCR", base_cfg.dcr_screencap_addr);
         adb.nc_address = cfg_json.get("ncAddress", base_cfg.nc_address);
         adb.screencap_encode = cfg_json.get("screencapEncode", base_cfg.screencap_encode);
         adb.release = cfg_json.get("release", base_cfg.release);
@@ -101,6 +102,10 @@ bool asst::GeneralConfig::parse(const json::value& json)
         adb.chmod_minitouch = cfg_json.get("chmodMinitouch", base_cfg.chmod_minitouch);
         adb.call_minitouch = cfg_json.get("callMinitouch", base_cfg.call_minitouch);
         adb.call_maatouch = cfg_json.get("callMaatouch", base_cfg.call_maatouch);
+        adb.push_droidcast = cfg_json.get("pushDroidCastRaw", base_cfg.push_droidcast);
+        adb.chmod_droidcast = cfg_json.get("chmodDroidCastRaw", base_cfg.chmod_droidcast);
+        adb.call_droidcast = cfg_json.get("callDroidCastRaw", base_cfg.call_droidcast);
+        adb.reforward_droidcast_port = cfg_json.get("reforwardDroidCastRawPort", base_cfg.reforward_droidcast_port);
         adb.back_to_home = cfg_json.get("back_to_home", base_cfg.back_to_home);
     }
 

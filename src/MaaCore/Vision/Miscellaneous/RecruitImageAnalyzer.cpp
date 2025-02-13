@@ -30,14 +30,23 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
         auto& all_tags_set = RecruitData.get_all_tags();
 
         // 已经 fullMatch，不会再把 `支援机械` 匹配成 `支援`、`高级资深干员` 匹配成 `资深干员` 了，因此不必再排序。
-        tags_analyzer.set_required(std::vector(all_tags_set.begin(), all_tags_set.end()));
+        std::vector<std::string> all_tags(all_tags_set.begin(), all_tags_set.end());
+        for (auto& tag : all_tags) {
+            tag = RecruitData.get_tag_name(tag); // 翻译一下
+        }
+        tags_analyzer.set_required(std::move(all_tags)); // 按理说，tags里面应该包含了所有的tag，不会有未知tag
         analyzer_inited = true;
     }
 
     tags_analyzer.set_image(m_image);
 
     if (tags_analyzer.analyze()) {
-        m_tags_result = tags_analyzer.get_result();
+        std::vector<asst::TextRect> result = tags_analyzer.get_result();
+        for (auto& tag : result) {
+            tag.text = RecruitData.find_tag_id(tag.text);
+        }
+
+        m_tags_result = std::move(result);
         return true;
         // if (m_tags_result.size() == RecruitData.CorrectNumberOfTags) {
         //     return true;

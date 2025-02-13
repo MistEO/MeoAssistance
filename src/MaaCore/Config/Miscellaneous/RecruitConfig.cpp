@@ -15,6 +15,16 @@ std::string asst::RecruitConfig::get_tag_name(const TagId& id) const noexcept
     return iter->second;
 }
 
+std::string asst::RecruitConfig::find_tag_id(const std::string& name) const noexcept
+{
+    for (const auto& [id, tag_name] : m_all_tags_name) {
+        if (tag_name == name) {
+            return id;
+        }
+    }
+    return "Unknown tag";
+}
+
 bool asst::RecruitConfig::parse(const json::value& json)
 {
     LogTraceFunction;

@@ -2,12 +2,9 @@
 
 #include "AbstractConfig.h"
 
-#include <memory>
 #include <optional>
 #include <string>
 #include <unordered_map>
-
-#include "Common/AsstTypes.h"
 
 namespace asst
 {
@@ -76,6 +73,7 @@ struct AdbCfg
     std::string display;
     std::string screencap_raw_with_gzip;
     std::string screencap_raw_by_nc;
+    std::string dcr_screencap_addr;
     std::string nc_address;
     std::string screencap_encode;
     std::string release;
@@ -88,6 +86,10 @@ struct AdbCfg
     std::string chmod_minitouch;
     std::string call_minitouch;
     std::string call_maatouch;
+    std::string push_droidcast;
+    std::string call_droidcast;
+    std::string chmod_droidcast;
+    std::string reforward_droidcast_port;
     std::string back_to_home;
     json::object extras;
 };

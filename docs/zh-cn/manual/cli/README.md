@@ -3,7 +3,7 @@ title: CLI 使用指南
 icon: material-symbols:terminal
 index: false
 dir:
-  order: 6
+  order: 7
 ---
 
 一个使用 Rust 编写的简单 MAA 命令行工具。

@@ -6,7 +6,7 @@
             "copyrightText": "{projectName} - A part of the {solutionName} project\nCopyright (C) 2021 MistEO and Contributors\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the {licenseName} as published by\nthe Free Software Foundation, either version 3 of the License, or\nany later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY",
             "variables": {
                 "projectName": "MaaWpfGui",
-                "solutionName": "MaaCoreArknights",
+                "solutionName": "MaaAssistantArknights",
                 "licenseName": "GNU Affero General Public License v3.0 only"
             }
         }

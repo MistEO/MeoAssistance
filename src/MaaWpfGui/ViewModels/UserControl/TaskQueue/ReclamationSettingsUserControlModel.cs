@@ -130,4 +130,6 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
             ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, value.ToString());
         }
     }
+
+
 }

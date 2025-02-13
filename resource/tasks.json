@@ -13554,9 +13554,11 @@
         "template": "Tales@RA@SwipeSave.png",
         "sub": ["Tales@RA@DialogConfirmRed*2"],
         "subErrorIgnored": true,
+        "postDelay": 1000,
         "next": [
-            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave",
             "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave@NextAfterLoadingText",
+            "Tales@RA@PNS-ProsperityBelowLimit-SwipeSave",
+            "Tales@RA@PNS-ProsperityBelowLimit-Dots",
             "Tales@RA@ProsperityNoSave"
         ]
     },

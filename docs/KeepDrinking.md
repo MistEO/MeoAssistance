@@ -1,4 +1,15 @@
-                                                                                                                                  
+---
+pageInfo: false
+breadcrumb: false
+navbar: false
+sidebar: false
+index: false
+lastUpdated: false
+editLink: false
+contributors: false
+prev: false
+next: false
+---                                                                                                                                  
                                                                                                                                   
                                                      !:           .7:~!.                                                          
                           :.                       :?55          ?5~::~J?:                                                        

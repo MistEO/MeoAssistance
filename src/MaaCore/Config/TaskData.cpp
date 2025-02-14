@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <meojson/json.hpp>
+#include <regex>
 
 #ifdef ASST_DEBUG
 #include <queue>
@@ -184,6 +185,20 @@ bool asst::TaskData::lazy_parse(const json::value& json)
                 // RGBCount 和 HSVCount 必须有 color_scales
                 Log.error("Task", name, "with Count method has empty color_scales");
                 validity = false;
+            }
+            // 用于解决 a8d68dd72df6eef1d2f8feed3883299922ec1a17 类似的潜在regex非法问题
+            if (auto ocr_task = std::dynamic_pointer_cast<OcrTaskInfo>(task);
+                task->algorithm == AlgorithmType::OcrDetect) {
+                for (const auto& [regex, new_str] : ocr_task->replace_map) {
+                    try {
+                        std::regex _(regex);
+                    }
+                    catch (const std::regex_error& e) {
+                        Log.error("Task", name, "has invalid regex:", regex, ":", e.what());
+                        validity = false;
+                        break;
+                    }
+                }
             }
         }
         if (checking_task_set.size() > MAX_CHECKING_SIZE) {

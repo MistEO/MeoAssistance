@@ -27,7 +27,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     static OCRer tags_analyzer;
     if (!analyzer_inited) {
         tags_analyzer.set_task_info("RecruitTags");
-        auto& all_tags_set = RecruitData.get_all_tags();
+        auto& all_tags_set = RecruitData.get_all_tags_displayed();
 
         // 已经 fullMatch，不会再把 `支援机械` 匹配成 `支援`、`高级资深干员` 匹配成 `资深干员` 了，因此不必再排序。
         tags_analyzer.set_required(std::vector(all_tags_set.begin(), all_tags_set.end()));
@@ -37,7 +37,12 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
     tags_analyzer.set_image(m_image);
 
     if (tags_analyzer.analyze()) {
-        m_tags_result = tags_analyzer.get_result();
+        std::vector<asst::TextRect> result = tags_analyzer.get_result();
+        for (auto& tag : result) {
+            tag.text = RecruitData.find_tag_id(tag.text);
+        }
+
+        m_tags_result = std::move(result);
         return true;
         // if (m_tags_result.size() == RecruitData.CorrectNumberOfTags) {
         //     return true;

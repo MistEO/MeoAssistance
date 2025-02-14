@@ -1065,35 +1065,9 @@
     },
     "RecruitTags": {
         "ocrReplace": [
-            ["Starter", "新手"],
-            ["Top Operato.?", "高级资深干员"],
-            ["Senior Operato.?", "资深干员"],
-            ["Melee", "近战位"],
-            ["Ranged", "远程位"],
-            ["Guard", "近卫干员"],
-            ["Medic", "医疗干员"],
-            ["Vanguard", "先锋干员"],
-            ["Caster", "术师干员"],
-            ["Sniper", "狙击干员"],
-            ["Defender", "重装干员"],
-            ["Supporter", "辅助干员"],
-            ["Specialist", "特种干员"],
-            ["Healing", "治疗"],
-            ["Support$", "支援"],
-            ["DPS", "输出"],
-            ["AoE", "群攻"],
-            ["Slow", "减速"],
-            ["Survival", "生存"],
-            ["Defense", "防护"],
-            ["Debuff", "削弱"],
-            ["Shift", "位移"],
-            ["Crowd-Control", "控场"],
-            ["Nuker", "爆发"],
-            ["Summon", "召唤"],
-            ["Fast-Redeploy", "快速复活"],
-            ["DP-Recovery", "费用回复"],
-            ["Robot", "支援机械"],
-            ["Elemental", "元素"]
+            ["Top Operato.?", "Top Operator"],
+            ["Senior Operato.?", "Senior Operator"],
+            ["Support$", "Support"]
         ]
     },
     "RecruitContinue": {

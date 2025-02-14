@@ -74,9 +74,13 @@ public:
 
     const std::unordered_set<std::string>& get_all_tags() const noexcept { return m_all_tags; }
 
+    const std::unordered_set<std::string>& get_all_tags_displayed() const noexcept { return m_all_tags_displayed; }
+
     const std::vector<Recruitment>& get_all_opers() const noexcept { return m_all_opers; }
 
     std::string get_tag_name(const TagId& id) const noexcept;
+    // 根据 外文/中文tag 名称查找 中文tag id
+    std::string find_tag_id(const std::string& name) const noexcept;
 
 protected:
     virtual bool parse(const json::value& json) override;
@@ -84,8 +88,9 @@ protected:
     void clear();
 
     std::unordered_set<std::string> m_all_tags;
+    std::unordered_set<std::string> m_all_tags_displayed;
     std::vector<Recruitment> m_all_opers;
-    std::unordered_map<TagId, std::string> m_all_tags_name;
+    std::unordered_map<TagId, std::string> m_all_tags_name; // <中文tag, 中文/外文tag>
 };
 
 // 公开招募的干员组合

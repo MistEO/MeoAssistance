@@ -663,6 +663,7 @@ namespace MaaWpfGui.Main
         private void ProcTaskChainMsg(AsstMsg msg, JObject details)
         {
             string taskChain = details["taskchain"]?.ToString() ?? string.Empty;
+            AsstTaskId taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
             switch (taskChain)
             {
                 case "CloseDown":
@@ -738,73 +739,73 @@ namespace MaaWpfGui.Main
                     break;
 
                 case AsstMsg.TaskChainCompleted:
-                    // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
-                    if (_latestTaskId.Any(i => i.Value == details["taskid"]?.ToObject<AsstTaskId>()))
                     {
-                        var taskType = _latestTaskId.First(i => i.Value == details["taskid"]?.ToObject<AsstTaskId>()).Key;
-                        if (_mainTaskTypes.Contains(taskType))
+                        // 判断 _latestTaskId 中是否有元素的值和 details["taskid"] 相等，如果有再判断这个 id 对应的任务是否在 _mainTaskTypes 中
+                        if (_taskStatus.TryGetValue(taskId, out var taskType))
                         {
-                            Instances.TaskQueueViewModel.UpdateMainTasksProgress();
-                        }
-                    }
-
-                    switch (taskChain)
-                    {
-                        case "Fight":
-                            Instances.TaskQueueViewModel.FightTaskRunning = false;
-                            break;
-
-                        case "Infrast":
-                            Instances.TaskQueueViewModel.InfrastTaskRunning = false;
-                            Instances.TaskQueueViewModel.IncreaseCustomInfrastPlanIndex();
-                            Instances.TaskQueueViewModel.RefreshCustomInfrastPlanIndexByPeriod();
-                            break;
-
-                        case "Mall":
+                            if (_mainTaskTypes.Contains(taskType))
                             {
-                                if (TaskQueueViewModel.FightTask.Stage != string.Empty && TaskQueueViewModel.MallTask.CreditFightTaskEnabled)
-                                {
-                                    TaskQueueViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
-                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
-                                }
-
-                                if (TaskQueueViewModel.MallTask.CreditVisitFriendsEnabled)
-                                {
-                                    TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
-                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
-                                }
-
-                                break;
+                                Instances.TaskQueueViewModel.UpdateMainTasksProgress();
                             }
-                    }
-
-                    if (taskChain == "Fight" && SanityReport.HasSanityReport)
-                    {
-                        var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), SanityReport.Sanity[0], SanityReport.Sanity[1]);
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain + sanityLog);
-                    }
-                    else
-                    {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain);
-                    }
-
-                    if (isCopilotTaskChain)
-                    {
-                        if (!Instances.CopilotViewModel.UseCopilotList || Instances.CopilotViewModel.CopilotItemViewModels.All(model => !model.IsChecked))
-                        {
-                            _runningState.SetIdle(true);
                         }
 
-                        if (Instances.CopilotViewModel.UseCopilotList)
+                        switch (taskChain)
                         {
-                            Instances.CopilotViewModel.CopilotTaskSuccess();
+                            case "Fight":
+                                Instances.TaskQueueViewModel.FightTaskRunning = false;
+                                break;
+
+                            case "Infrast":
+                                Instances.TaskQueueViewModel.InfrastTaskRunning = false;
+                                Instances.TaskQueueViewModel.IncreaseCustomInfrastPlanIndex();
+                                Instances.TaskQueueViewModel.RefreshCustomInfrastPlanIndexByPeriod();
+                                break;
+
+                            case "Mall":
+                                {
+                                    if (TaskQueueViewModel.FightTask.Stage != string.Empty && TaskQueueViewModel.MallTask.CreditFightTaskEnabled)
+                                    {
+                                        TaskQueueViewModel.MallTask.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
+                                    }
+
+                                    if (TaskQueueViewModel.MallTask.CreditVisitFriendsEnabled)
+                                    {
+                                        TaskQueueViewModel.MallTask.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
+                                    }
+
+                                    break;
+                                }
                         }
 
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
+                        if (taskChain == "Fight" && SanityReport.HasSanityReport)
+                        {
+                            var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), SanityReport.Sanity[0], SanityReport.Sanity[1]);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain + sanityLog);
+                        }
+                        else
+                        {
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain);
+                        }
+
+                        if (isCopilotTaskChain)
+                        {
+                            if (!Instances.CopilotViewModel.UseCopilotList || Instances.CopilotViewModel.CopilotItemViewModels.All(model => !model.IsChecked))
+                            {
+                                _runningState.SetIdle(true);
+                            }
+
+                            if (Instances.CopilotViewModel.UseCopilotList)
+                            {
+                                Instances.CopilotViewModel.CopilotTaskSuccess();
+                            }
+
+                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
+                        }
                     }
 
                     break;
-
                 case AsstMsg.TaskChainExtraInfo:
                     break;
 
@@ -813,11 +814,11 @@ namespace MaaWpfGui.Main
                     var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
                     if (taskList?.Length > 0)
                     {
-                        var latestMainTaskIds = _latestTaskId.Where(i => _mainTaskTypes.Contains(i.Key)).Select(i => i.Value);
+                        var latestMainTaskIds = _taskStatus.Where(i => _mainTaskTypes.Contains(i.Value)).Select(i => i.Key);
                         isMainTaskQueueAllCompleted = taskList.Any(i => latestMainTaskIds.Contains(i));
                     }
 
-                    if (_latestTaskId.ContainsKey(TaskType.Copilot))
+                    if (_taskStatus.ContainsValue(TaskType.Copilot))
                     {
                         if (SettingsViewModel.GameSettings.CopilotWithScript)
                         {
@@ -829,8 +830,8 @@ namespace MaaWpfGui.Main
                         }
                     }
 
-                    bool buyWine = _latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
-                    _latestTaskId.Clear();
+                    bool buyWine = _taskStatus.ContainsValue(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
+                    _taskStatus.Clear();
 
                     TaskQueueViewModel.FightTask.ResetFightVariables();
                     Instances.TaskQueueViewModel.ResetTaskSelection();
@@ -2030,7 +2031,7 @@ namespace MaaWpfGui.Main
             TaskType.Reclamation
         ];
 
-        private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = [];
+        private readonly Dictionary<AsstTaskId, TaskType> _taskStatus = [];
 
         private static JObject SerializeFightTaskParams(
             string stage,
@@ -2086,11 +2087,11 @@ namespace MaaWpfGui.Main
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Fight, taskParams);
             if (isMainFight)
             {
-                _latestTaskId[TaskType.Fight] = id;
+                _taskStatus.Add(id, TaskType.Fight);
             }
             else
             {
-                _latestTaskId[TaskType.FightRemainingSanity] = id;
+                _taskStatus.Add(id, TaskType.FightRemainingSanity);
             }
 
             return id != 0;
@@ -2111,11 +2112,7 @@ namespace MaaWpfGui.Main
         public bool AsstSetFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes, int series, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
         {
             var type = isMainFight ? TaskType.Fight : TaskType.FightRemainingSanity;
-            if (!_latestTaskId.TryGetValue(type, out var id))
-            {
-                return false;
-            }
-
+            var id = _taskStatus.FirstOrDefault(t => t.Value == type).Key;
             if (id == 0)
             {
                 return false;
@@ -2147,7 +2144,7 @@ namespace MaaWpfGui.Main
                 ["specialaccess"] = specialaccess,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Award, taskParams);
-            _latestTaskId[TaskType.Award] = id;
+            _taskStatus.Add(id, TaskType.Award);
             return id != 0;
         }
 
@@ -2167,7 +2164,7 @@ namespace MaaWpfGui.Main
                 ["account_name"] = accountName,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.StartUp, taskParams);
-            _latestTaskId[TaskType.StartUp] = id;
+            _taskStatus.Add(id, TaskType.StartUp);
             return id != 0;
         }
 
@@ -2183,7 +2180,7 @@ namespace MaaWpfGui.Main
             }
 
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.CloseDown, taskParams);
-            _latestTaskId[TaskType.CloseDown] = id;
+            _taskStatus.Add(id, TaskType.CloseDown);
             return id != 0;
         }
 
@@ -2230,7 +2227,7 @@ namespace MaaWpfGui.Main
                 ["reserve_max_credit"] = reserveMaxCredit,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Mall, taskParams);
-            _latestTaskId[TaskType.Mall] = id;
+            _taskStatus.Add(id, TaskType.Mall);
             return id != 0;
         }
 
@@ -2306,7 +2303,7 @@ namespace MaaWpfGui.Main
             };
 
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Recruit, taskParams);
-            _latestTaskId[TaskType.Recruit] = id;
+            _taskStatus.Add(id, TaskType.Recruit);
             return id != 0;
         }
 
@@ -2388,7 +2385,7 @@ namespace MaaWpfGui.Main
                 filename,
                 planIndex);
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Infrast, taskParams);
-            _latestTaskId[TaskType.Infrast] = id;
+            _taskStatus.Add(id, TaskType.Infrast);
             return id != 0;
         }
 
@@ -2405,11 +2402,7 @@ namespace MaaWpfGui.Main
             int planIndex)
         {
             const TaskType Type = TaskType.Infrast;
-            if (!_latestTaskId.TryGetValue(Type, out var id))
-            {
-                return false;
-            }
-
+            int id = _taskStatus.FirstOrDefault(i => i.Value == Type).Key;
             if (id == 0)
             {
                 return false;
@@ -2618,43 +2611,7 @@ namespace MaaWpfGui.Main
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
 
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Roguelike, taskParams);
-            _latestTaskId[TaskType.Roguelike] = id;
-            return id != 0;
-        }
-
-        /// <summary>
-        /// 自动生息演算。
-        /// </summary>
-        /// <param name="toolToCraft">要组装的支援道具。</param>
-        /// <param name="theme">生息演算主题["Tales"]</param>
-        /// <param name="mode">
-        /// 策略。可用值包括：
-        /// <list type="bullet">
-        ///     <item>
-        ///         <term><c>0</c></term>
-        ///         <description>无存档时通过进出关卡刷生息点数</description>
-        ///     </item>
-        ///     <item>
-        ///         <term><c>1</c></term>
-        ///         <description>有存档时通过合成支援道具刷生息点数</description>
-        ///     </item>
-        /// </list>
-        /// </param>
-        /// <param name="incrementMode">点击类型：0 连点；1 长按</param>
-        /// <param name="numCraftBatches">单次最大制造轮数</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendReclamation(string[] toolToCraft, string theme = "Tales", int mode = 1, int incrementMode = 0, int numCraftBatches = 16)
-        {
-            var taskParams = new JObject
-            {
-                ["tools_to_craft"] = new JArray(toolToCraft),
-                ["theme"] = theme,
-                ["mode"] = mode,
-                ["increment_mode"] = incrementMode,
-                ["num_craft_batches"] = numCraftBatches,
-            };
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Reclamation, taskParams);
-            _latestTaskId[TaskType.Reclamation] = id;
+            _taskStatus.Add(id, TaskType.Roguelike);
             return id != 0;
         }
 
@@ -2687,7 +2644,7 @@ namespace MaaWpfGui.Main
             };
 
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Recruit, taskParams);
-            _latestTaskId[TaskType.RecruitCalc] = id;
+            _taskStatus.Add(id, TaskType.RecruitCalc);
             return id != 0 && AsstStart();
         }
 
@@ -2699,7 +2656,7 @@ namespace MaaWpfGui.Main
         {
             var taskParams = new JObject();
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Depot, taskParams);
-            _latestTaskId[TaskType.Depot] = id;
+            _taskStatus.Add(id, TaskType.Depot);
             return id != 0 && AsstStart();
         }
 
@@ -2711,7 +2668,7 @@ namespace MaaWpfGui.Main
         {
             var taskParams = new JObject();
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.OperBox, taskParams);
-            _latestTaskId[TaskType.OperBox] = id;
+            _taskStatus.Add(id, TaskType.OperBox);
             return id != 0 && AsstStart();
         }
 
@@ -2728,7 +2685,7 @@ namespace MaaWpfGui.Main
                 },
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Custom, taskParams);
-            _latestTaskId[TaskType.Gacha] = id;
+            _taskStatus.Add(id, TaskType.Gacha);
             return id != 0 && AsstStart();
         }
 
@@ -2772,7 +2729,7 @@ namespace MaaWpfGui.Main
             }
 
             AsstTaskId id = AsstAppendTaskWithEncoding(type, taskParams);
-            _latestTaskId[TaskType.Copilot] = id;
+            _taskStatus.Add(id, TaskType.Copilot);
             return id != 0 && (!asstStart || AsstStart());
         }
 
@@ -2783,13 +2740,26 @@ namespace MaaWpfGui.Main
                 ["filename"] = filename,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.VideoRecognition, taskParams);
-            _latestTaskId[TaskType.Copilot] = id;
+            _taskStatus.Add(id, TaskType.Copilot);
             return id != 0 && AsstStart();
+        }
+
+        public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, AsstTaskType type, JObject? taskParams = null)
+        {
+            taskParams ??= [];
+            AsstTaskId id = AsstAppendTask(_handle, type.ToString(), JsonConvert.SerializeObject(taskParams));
+            if (id == 0)
+            {
+                return false;
+            }
+
+            _taskStatus.Add(id, wpfTasktype);
+            return true;
         }
 
         public bool ContainsTask(TaskType type)
         {
-            return _latestTaskId.ContainsKey(type);
+            return _taskStatus.ContainsValue(type);
         }
 
         /// <summary>
@@ -2820,7 +2790,7 @@ namespace MaaWpfGui.Main
             bool ret = MaaService.AsstStop(_handle);
             if (clearTask)
             {
-                _latestTaskId.Clear();
+                _taskStatus.Clear();
             }
 
             return ret;

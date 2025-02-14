@@ -2616,42 +2616,6 @@ namespace MaaWpfGui.Main
         }
 
         /// <summary>
-        /// 自动生息演算。
-        /// </summary>
-        /// <param name="toolToCraft">要组装的支援道具。</param>
-        /// <param name="theme">生息演算主题["Tales"]</param>
-        /// <param name="mode">
-        /// 策略。可用值包括：
-        /// <list type="bullet">
-        ///     <item>
-        ///         <term><c>0</c></term>
-        ///         <description>无存档时通过进出关卡刷生息点数</description>
-        ///     </item>
-        ///     <item>
-        ///         <term><c>1</c></term>
-        ///         <description>有存档时通过合成支援道具刷生息点数</description>
-        ///     </item>
-        /// </list>
-        /// </param>
-        /// <param name="incrementMode">点击类型：0 连点；1 长按</param>
-        /// <param name="numCraftBatches">单次最大制造轮数</param>
-        /// <returns>是否成功。</returns>
-        public bool AsstAppendReclamation(string[] toolToCraft, string theme = "Tales", int mode = 1, int incrementMode = 0, int numCraftBatches = 16)
-        {
-            var taskParams = new JObject
-            {
-                ["tools_to_craft"] = new JArray(toolToCraft),
-                ["theme"] = theme,
-                ["mode"] = mode,
-                ["increment_mode"] = incrementMode,
-                ["num_craft_batches"] = numCraftBatches,
-            };
-            AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.Reclamation, taskParams);
-            _taskStatus.Add(id, TaskType.Reclamation);
-            return id != 0;
-        }
-
-        /// <summary>
         /// 公招识别。
         /// </summary>
         /// <param name="selectLevel">会去点击标签的 Tag 等级。</param>
@@ -2778,6 +2742,19 @@ namespace MaaWpfGui.Main
             AsstTaskId id = AsstAppendTaskWithEncoding(AsstTaskType.VideoRecognition, taskParams);
             _taskStatus.Add(id, TaskType.Copilot);
             return id != 0 && AsstStart();
+        }
+
+        public bool AsstAppendTaskWithEncoding(TaskType wpfTasktype, AsstTaskType type, JObject? taskParams = null)
+        {
+            taskParams ??= [];
+            AsstTaskId id = AsstAppendTask(_handle, type.ToString(), JsonConvert.SerializeObject(taskParams));
+            if (id == 0)
+            {
+                return false;
+            }
+
+            _taskStatus.Add(id, wpfTasktype);
+            return true;
         }
 
         public bool ContainsTask(TaskType type)

@@ -1861,16 +1861,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendReclamation()
         {
-            var toolToCraft = ReclamationTask.ReclamationToolToCraft.Split(';', '；').Select(s => s.Trim());
-
-            _ = int.TryParse(ReclamationTask.ReclamationMode, out var mode);
-
-            return Instances.AsstProxy.AsstAppendReclamation(
-                toolToCraft.ToArray(),
-                ReclamationTask.ReclamationTheme,
-                mode,
-                ReclamationTask.ReclamationIncrementMode,
-                ReclamationTask.ReclamationMaxCraftCountPerRound);
+            // 被RemoteControlService反射调用，暂不移除
+            var (type, param) = ReclamationTask.Serialize();
+            return Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.Reclamation, type, param);
         }
 
         /// <summary>

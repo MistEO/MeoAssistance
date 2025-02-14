@@ -13,10 +13,13 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
@@ -93,6 +96,7 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
 
         set
         {
+            value = value.Replace('；', ';');
             SetAndNotify(ref _reclamationToolToCraft, value);
             ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationToolToCraft, value);
         }
@@ -129,5 +133,39 @@ public class ReclamationSettingsUserControlModel : TaskViewModel
             SetAndNotify(ref _reclamationMaxCraftCountPerRound, value.ToString());
             ConfigurationHelper.SetValue(ConfigurationKeys.ReclamationMaxCraftCountPerRound, value.ToString());
         }
+    }
+
+    /// <summary>
+    /// 自动生息演算。
+    /// </summary>
+    /// <param name="toolToCraft">要组装的支援道具。</param>
+    /// <param name="theme">生息演算主题["Tales"]</param>
+    /// <param name="mode">
+    /// 策略。可用值包括：
+    /// <list type="bullet">
+    ///     <item>
+    ///         <term><c>0</c></term>
+    ///         <description>无存档时通过进出关卡刷生息点数</description>
+    ///     </item>
+    ///     <item>
+    ///         <term><c>1</c></term>
+    ///         <description>有存档时通过合成支援道具刷生息点数</description>
+    ///     </item>
+    /// </list>
+    /// </param>
+    /// <param name="incrementMode">点击类型：0 连点；1 长按</param>
+    /// <param name="numCraftBatches">单次最大制造轮数</param>
+    /// <returns>返回(任务类型, 参数)</returns>
+    public (AsstTaskType Type, JObject Params) Serialize()
+    {
+        var data = new JObject
+        {
+            ["theme"] = ReclamationTheme,
+            ["mode"] = ReclamationMode,
+            ["increment_mode"] = ReclamationIncrementMode,
+            ["num_craft_batches"] = ReclamationMaxCraftCountPerRound,
+            ["tools_to_craft"] = new JArray(ReclamationToolToCraft.Split(';', '；').Select(s => s.Trim())),
+        };
+        return (AsstTaskType.Reclamation, data);
     }
 }

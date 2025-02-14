@@ -310,6 +310,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void ParseJsonAndShowInfo(string jsonStr)
         {
+            string language = Instances.SettingsViewModel.Language;
+            
             try
             {
                 var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
@@ -328,9 +330,32 @@ namespace MaaWpfGui.ViewModels.UI
 
                 var doc = (JObject?)json["doc"];
                 string title = string.Empty;
+                bool languageIsGlobal = language is "zh-tw" or "en-us" or "ja-jp" or "ko-kr";
+                
                 if (doc != null && doc.TryGetValue("title", out var titleValue))
                 {
                     title = titleValue.ToString();
+                    
+                    if (language == "zh-tw")
+                    {
+                        if (doc.TryGetValue("title_zh_tw", out var localizedTitleValueZhTw))
+                        {
+                            title = localizedTitleValueZhTw.ToString();
+                        }
+                    }
+                    else if (languageIsGlobal)
+                    {
+                        string localizedTitleKey = $"title_{language.Replace("-", "_")}";
+                        if (doc.TryGetValue(localizedTitleKey, out var localizedTitleValue))
+                        {
+                            title = localizedTitleValue.ToString();
+                        }
+                        else if (doc.TryGetValue("title_global", out var titleGlobalValue))
+                        {
+                            title = titleGlobalValue.ToString();
+                        }
+                    }
+                    
                     CopilotTaskName = FindStageName((IsDataFromWeb ? string.Empty : _filename).Split(Path.DirectorySeparatorChar).LastOrDefault()?.Split('.').FirstOrDefault() ?? string.Empty, title);
                 }
 
@@ -349,6 +374,26 @@ namespace MaaWpfGui.ViewModels.UI
                 if (doc != null && doc.TryGetValue("details", out var detailsValue))
                 {
                     details = detailsValue.ToString();
+                    
+                    if (language == "zh-tw")
+                    {
+                        if (doc.TryGetValue("details_zh_tw", out var localizedDetailsValueZhTw))
+                        {
+                            details = localizedDetailsValueZhTw.ToString();
+                        }
+                    }
+                    else if (languageIsGlobal)
+                    {
+                        string localizedDetailsKey = $"details_{language.Replace("-", "_")}";
+                        if (doc.TryGetValue(localizedDetailsKey, out var localizedDetailsValue))
+                        {
+                            details = localizedDetailsValue.ToString();
+                        }
+                        else if (doc.TryGetValue("details_global", out var detailsGlobalValue))
+                        {
+                            details = detailsGlobalValue.ToString();
+                        }
+                    }
                 }
 
                 if (details.Length != 0)

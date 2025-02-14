@@ -93,7 +93,8 @@ if(USE_MAADEPS)
 endif()
 
 find_package(onnxruntime CONFIG REQUIRED) # provided by onnxruntime>=1.16
-list(APPEND maa_libs onnxruntime::onnxruntime)
+find_package(pocketpy REQUIRED)
+list(APPEND maa_libs onnxruntime::onnxruntime pocketpy)
 if(DEFINED fastdeploy_SOURCE_DIR)
     # TODO: FetchContent github.com/MaaAssistantArknights/FastDeploy
     if(NOT DEFINED fastdeploy_BINARY_DIR)

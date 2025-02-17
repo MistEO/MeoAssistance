@@ -812,16 +812,22 @@ bool asst::AutoRecruitTask::hire_all(const cv::Mat& image)
         MultiMatcher hire_searcher(image);
         hire_searcher.set_task_info("RecruitFinish");
         hire_searcher.analyze();
+        if (hire_searcher.get_result().empty()) {
+            return true;
+        }
         for (const MatchRect& r : hire_searcher.get_result()) {
             Log.info("Mark", slot_index_from_rect(r.rect), "clean");
             m_dirty_slots.erase(slot_index_from_rect(r.rect));
         }
-        if (hire_searcher.get_result().empty()) {
-            return true;
-        }
     }
     // hire all
-    return ProcessTask { *this, { "RecruitFinish" } }.run();
+    size_t i = 0;
+    while (ProcessTask { *this, { "RecruitFinish" } }.run()) {
+        if (++i > 10) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /// search for blue *Hire* buttons in the recruit home page, mark those slot clean and do hiring

@@ -1195,6 +1195,9 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_path,
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_encounter_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_char_names;
 
+    // HARDCODED I.S. TO RUN
+    json::default_string_t rogue_index = "rogue_4";
+
     if (base_stage_names.empty() || base_item_names.empty() || base_totem_names.empty() ||
         base_encounter_names.empty()) {
         auto rg_opt = json::open(base_dir / "roguelike_topic_table.json");
@@ -1203,35 +1206,28 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_path,
             return false;
         }
         auto& rg_json = rg_opt.value();
-        for (auto& [rogue_index, rogue_details] : rg_json["details"].as_object()) {
-            for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
-                if (!id.starts_with("ro1_e_") && !id.starts_with("ro2_e_") && !id.starts_with("ro3_e_")) {
-                    base_stage_names.emplace(id, stage_obj["name"].as_string());
-                }
+        auto& rogue_details = rg_json["details"][rogue_index];
+
+        for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
+            if (!id.starts_with("ro4_e_")) {
+                base_stage_names.emplace(id, stage_obj["name"].as_string());
             }
-            for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
-                // limits only buyable items
-                // (08/03/2024 items 516 extracted items vs 514 shopping.json items)
-                if (!id.starts_with("rogue_1_relic_c") && !id.starts_with("rogue_1_relic_m")) {
-                    if (id.starts_with(rogue_index + "_recruit") || id.starts_with(rogue_index + "_upgrade") ||
-                        id.starts_with(rogue_index + "_relic") || id.starts_with(rogue_index + "_active") ||
-                        id.ends_with("_item") || id.starts_with(rogue_index + "_totem")) {
-                        base_item_names.emplace(id, item_obj["name"].as_string());
-                    }
-                    if (id.starts_with(rogue_index + "_totem")) {
-                        base_totem_names.emplace(id, item_obj["name"].as_string());
-                    }
-                }
+        }
+        for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
+            // limits only buyable items
+            // (08/03/2024 items 516 extracted items vs 514 shopping.json items)
+            if (id.starts_with(rogue_index + "_recruit") || id.starts_with(rogue_index + "_upgrade") ||
+                id.starts_with(rogue_index + "_relic") || id.starts_with(rogue_index + "_active")) {
+                base_item_names.emplace(id, item_obj["name"].as_string());
             }
-            for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
-                // very complicated way to reduce dupes. Will probably brake sooner or later.
-                if (id.ends_with("_enter")) {
-                    if (!id.starts_with("scene_ro3_rest")) {
-                        if (!id.starts_with("scene_ro3_portal") || id.starts_with("scene_ro3_portalsample")) {
-                            base_encounter_names.emplace(id, encounter_obj["title"].as_string());
-                        }
-                    }
-                }
+            if (id.starts_with(rogue_index + "_totem")) {
+                base_totem_names.emplace(id, item_obj["name"].as_string());
+            }
+        }
+        for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
+            // very complicated way to reduce dupes. Will probably brake sooner or later.
+            if (id.ends_with("_enter")) {
+                base_encounter_names.emplace(id, encounter_obj["title"].as_string());
             }
         }
     }
@@ -1266,52 +1262,42 @@ bool ocr_replace_overseas(const fs::path& input_dir, const fs::path& tasks_path,
     std::string name_buffer; // Reused string buffer
 
     auto& rg_json = rg_opt.value();
-    for (auto& [rogue_index, rogue_details] : rg_json["details"].as_object()) {
-        for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
-            if (id.starts_with("ro1_e_") || id.starts_with("ro2_e_") || id.starts_with("ro3_e_")) {
-                continue;
-            }
+    auto& rogue_details = rg_json["details"][rogue_index];
 
+    for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
+        if (!id.starts_with("ro4_e_")) {
             name_buffer = stage_obj["name"].as_string();
             if (remove_spaces) {
                 name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
             }
             stage_names.emplace(id, name_buffer);
         }
+    }
 
-        for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
-            // limits only buyable items
-            // (08/03/2024 items 516 extracted items vs 514 shopping.json items)
-            if (id.starts_with("rogue_1_relic_c") || id.starts_with("rogue_1_relic_m")) {
-                continue;
+    for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
+        // limits only buyable items
+        // (08/03/2024 items 516 extracted items vs 514 shopping.json items)
+        if (id.starts_with(rogue_index + "_recruit") || id.starts_with(rogue_index + "_upgrade") ||
+            id.starts_with(rogue_index + "_relic") || id.starts_with(rogue_index + "_active")) {
+            name_buffer = item_obj["name"].as_string();
+            if (remove_spaces) {
+                name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
             }
-
-            if (id.starts_with(rogue_index + "_recruit") || id.starts_with(rogue_index + "_upgrade") ||
-                id.starts_with(rogue_index + "_relic") || id.starts_with(rogue_index + "_active") ||
-                id.ends_with("_item") || id.starts_with(rogue_index + "_totem")) {
-                name_buffer = item_obj["name"].as_string();
-                if (remove_spaces) {
-                    name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
-                }
-                item_names.emplace(id, name_buffer);
-            }
-
-            if (id.starts_with(rogue_index + "_totem")) {
-                name_buffer = item_obj["name"].as_string();
-                if (remove_spaces) {
-                    name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
-                }
-                totem_names.emplace(id, name_buffer);
-            }
+            item_names.emplace(id, name_buffer);
         }
 
-        for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
-            // very complicated way to reduce dupes. Will probably break sooner or later.
-            if (!id.ends_with("_enter") || id.starts_with("scene_ro3_rest") ||
-                (id.starts_with("scene_ro3_portal") && !id.starts_with("scene_ro3_portalsample"))) {
-                continue;
+        if (id.starts_with(rogue_index + "_totem")) {
+            name_buffer = item_obj["name"].as_string();
+            if (remove_spaces) {
+                name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());
             }
+            totem_names.emplace(id, name_buffer);
+        }
+    }
 
+    for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
+        // very complicated way to reduce dupes. Will probably break sooner or later.
+        if (id.ends_with("_enter")) {
             name_buffer = encounter_obj["title"].as_string();
             if (remove_spaces) {
                 name_buffer.erase(std::remove(name_buffer.begin(), name_buffer.end(), ' '), name_buffer.end());

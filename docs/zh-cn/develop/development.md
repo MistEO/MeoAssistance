@@ -5,6 +5,10 @@ icon: iconoir:developer
 
 # 开发前须知
 
+::: tip
+本页面主要描述了 PR 流程以及 MAA 的文件格式化要求，如果你想要具体了解如何对 MAA 的运行逻辑做出更改，请参看 [协议文档](../protocol/)
+:::
+
 ## Github Pull Request 流程简述
 
 ### 我不懂编程，只是想改一点点 JSON 文件/文档等，要怎么操作？

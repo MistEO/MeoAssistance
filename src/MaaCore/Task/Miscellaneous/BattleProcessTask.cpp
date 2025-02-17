@@ -297,7 +297,7 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
                                         std::chrono::duration_cast<std::chrono::milliseconds>(
                                             std::chrono::steady_clock::now() - m_battle_starting_time)
                                             .count() },
-                                      { "cost_regenerated", m_cost_regenerated }};
+                                      { "cost_regenerated", m_cost_regenerated } };
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 

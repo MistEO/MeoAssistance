@@ -15,8 +15,12 @@ bool asst::InfrastOfficeTask::_run()
         return true;
     }
     swipe_to_the_right_of_main_ui();
-    enter_facility();
-    click_bottom_left_tab();
+    if (!enter_facility()) {
+        return false;
+    }
+    if (!enter_oper_list_page()) {
+        return false;
+    }
 
     for (int i = 0; i <= OperSelectRetryTimes; ++i) {
         if (need_exit()) {

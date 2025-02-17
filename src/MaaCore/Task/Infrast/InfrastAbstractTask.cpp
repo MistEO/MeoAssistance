@@ -659,9 +659,11 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 void asst::InfrastAbstractTask::swipe_to_the_left_of_main_ui()
 {
     ProcessTask(*this, { "SwipeToTheLeft" }).run();
+    sleep(500);
 }
 
 void asst::InfrastAbstractTask::swipe_to_the_right_of_main_ui()
 {
     ProcessTask(*this, { "SwipeToTheRight" }).run();
+    sleep(500);
 }

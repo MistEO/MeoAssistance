@@ -52,5 +52,6 @@ protected:
     bool m_in_bullet_time = false;
     bool m_need_to_wait_until_end = false;
     std::shared_ptr<std::unordered_map<std::string, std::string>> m_formation_ptr = nullptr;
+    std::chrono::steady_clock::time_point m_battle_starting_time;
 };
 }

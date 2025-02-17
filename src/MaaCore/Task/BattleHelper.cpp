@@ -344,6 +344,25 @@ bool asst::BattleHelper::update_cost(const cv::Mat& reusable)
     return true;
 }
 
+bool asst::BattleHelper::update_cost_regenerated(const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    BattlefieldMatcher analyzer(image);
+    analyzer.set_object_of_interest({ .cost_regeneration = true });
+    auto result_opt = analyzer.analyze();
+    if (!result_opt || !result_opt->cost_regeneration) {
+        return false;
+    }
+    const double cost_regenerated = std::floor(m_cost_regenerated) + result_opt->cost_regeneration.value();
+    if (cost_regenerated < m_cost_regenerated - 0.05) {
+        m_cost_regenerated = cost_regenerated + 1;
+    }
+    else if (cost_regenerated > m_cost_regenerated + 0.05) {
+        m_cost_regenerated = cost_regenerated;
+    }
+    return true;
+}
+
 bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, DeployDirection direction)
 {
     LogTraceFunction;

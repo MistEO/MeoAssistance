@@ -835,6 +835,7 @@ C:\\leidian\\LDPlayer9。\n
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
+    <system:String x:Key="CurrentTimeElapsed">当前全局时间: {0}, 当前全局费用回复: {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往「设置 - 更新设置 - 资源更新」尝试更新资源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>

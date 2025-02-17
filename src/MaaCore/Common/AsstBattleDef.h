@@ -208,6 +208,8 @@ struct Action
     int costs = 0;
     int cost_changes = 0;
     int cooling = 0;
+    double cost_regenerated = 0;
+    int time_elapsed = 0;
     ActionType type = ActionType::Deploy;
     std::string name; // 目标名，若 type >= SwitchSpeed, name 为空
     Point location;

@@ -1535,6 +1535,16 @@ namespace MaaWpfGui.Main
 
                 case "CopilotAction":
                     {
+                        var time_elapsed = subTaskDetails!["time_elapsed"]?.ToString();
+                        var cost_regenerated = subTaskDetails!["cost_regenerated"]?.ToString();
+                        Instances.CopilotViewModel.AddLog(
+                            string.Format(
+                                LocalizationHelper.GetString("CurrentTimeElapsed"),
+                                time_elapsed,
+                                cost_regenerated
+                            ),
+                            UiLogColor.Message);
+
                         var doc = subTaskDetails!["doc"]?.ToString();
                         if (!string.IsNullOrEmpty(doc))
                         {

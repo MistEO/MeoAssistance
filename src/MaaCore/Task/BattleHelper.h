@@ -40,6 +40,7 @@ protected:
     bool update_deployment(bool init = false, const cv::Mat& reusable = cv::Mat(), bool need_oper_cost = false);
     bool update_kills(const cv::Mat& reusable = cv::Mat());
     bool update_cost(const cv::Mat& reusable = cv::Mat());
+    bool update_cost_regenerated(const cv::Mat& reusable = cv::Mat());
 
     cv::Mat get_top_view(const cv::Mat& cam_img, bool side = true);
 
@@ -100,6 +101,7 @@ protected:
     int m_kills = 0;
     int m_total_kills = 0;
     int m_cost = 0;
+    double m_cost_regenerated = 0;
 
     std::vector<battle::DeploymentOper> m_cur_deployment_opers;
 

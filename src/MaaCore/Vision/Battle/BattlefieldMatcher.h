@@ -14,6 +14,7 @@ public:
         bool deployment = false;
         bool kills = false;
         bool costs = false;
+        bool cost_regeneration = false;
         // bool in_detail = false;
         bool speed_button = false;
         bool oper_cost = false;
@@ -27,6 +28,7 @@ public:
         // kills / total_kills
         std::optional<std::pair<int, int>> kills;
         std::optional<int> costs;
+        std::optional<double> cost_regeneration;
 
         // bool in_detail = false;
         bool speed_button = false;
@@ -58,6 +60,7 @@ protected:
     std::optional<std::pair<int, int>> kills_analyze() const; // 识别击杀数
     bool cost_symbol_analyze() const;                         // 识别费用左侧图标
     std::optional<int> costs_analyze() const;                 // 识别费用
+    std::optional<double> cost_regeneration_analyze() const;  // 识别费用回复进度条
     bool in_detail_analyze() const;                           // 识别是否在详情页
     bool speed_button_analyze() const;                        // 识别是否有加速按钮（在详情页就没有）
 

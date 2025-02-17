@@ -833,6 +833,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selected: </system:String>
     <system:String x:Key="CurrentSteps">Step: {0} {1}</system:String>
+    <system:String x:Key="CurrentTimeElapsed">当前全局时间: {0}, 当前全局费用回复: {1}</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the stage name or go to 「Settings - Update - Resource update」 and try updating the resource version!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>

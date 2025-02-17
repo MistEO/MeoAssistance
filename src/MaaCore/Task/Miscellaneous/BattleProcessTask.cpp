@@ -42,6 +42,8 @@ bool asst::BattleProcessTask::_run()
 
     update_deployment(true);
     to_group();
+    m_battle_starting_time = std::chrono::steady_clock::now();
+    update_cost_regenerated(ctrler()->get_image());
 
     size_t action_size = get_combat_data().actions.size();
     for (size_t i = 0; i < action_size && !need_exit() && m_in_battle; ++i) {
@@ -287,12 +289,15 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
     };
 
     json::value info = basic_info_with_what("CopilotAction");
-    info["details"] |= json::object {
-        { "action", ActionNames.at(action.type) },
-        { "target", action.name },
-        { "doc", action.doc },
-        { "doc_color", action.doc_color },
-    };
+    info["details"] |= json::object { { "action", ActionNames.at(action.type) },
+                                      { "target", action.name },
+                                      { "doc", action.doc },
+                                      { "doc_color", action.doc_color },
+                                      { "time_elapsed",
+                                        std::chrono::duration_cast<std::chrono::milliseconds>(
+                                            std::chrono::steady_clock::now() - m_battle_starting_time)
+                                            .count() },
+                                      { "cost_regenerated", m_cost_regenerated } };
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
@@ -307,6 +312,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     };
     auto do_strategy_and_update_image = [&]() {
         do_strategic_action(image);
+        update_cost_regenerated(image);
         image = ctrler()->get_image();
     };
 
@@ -368,6 +374,32 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             size_t cooling_count =
                 ranges::count_if(m_cur_deployment_opers, [](const auto& oper) -> bool { return oper.cooling; });
             if (cooling_count == static_cast<size_t>(action.cooling)) {
+                break;
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
+    // 距离战斗开始度过了多久 elapsed_ms
+    if (action.time_elapsed > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            // 计算当前时间与 m_battle_starting_time 之间的间隔
+            auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - m_battle_starting_time);
+            if (elapsed_ms.count() >= action.time_elapsed) {
+                break;
+            }
+            do_strategy_and_update_image();
+        }
+    }
+
+    // 距离战斗开始度过了多久 elapsed_ms
+    if (action.cost_regenerated > 0) {
+        update_image_if_empty();
+        while (!need_exit()) {
+            update_cost_regenerated(image);
+            if (m_cost_regenerated >= action.cost_regenerated) {
                 break;
             }
             do_strategy_and_update_image();

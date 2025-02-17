@@ -10,6 +10,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/BestMatcher.h"
 #include "Vision/Matcher.h"
+#include "Vision/Miscellaneous/BrightPointAnalyzer.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 #include "Vision/TemplDetOCRer.h"
@@ -52,6 +53,13 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
     if (m_object_of_interest.costs) {
         result.costs = costs_analyze();
         if (!result.costs) {
+            return std::nullopt;
+        }
+    }
+
+    if (m_object_of_interest.cost_regeneration) {
+        result.cost_regeneration = cost_regeneration_analyze();
+        if (!result.cost_regeneration) {
             return std::nullopt;
         }
     }
@@ -348,6 +356,17 @@ std::optional<int> BattlefieldMatcher::costs_analyze() const
         return std::nullopt;
     }
     return std::stoi(cost_str);
+}
+
+std::optional<double> BattlefieldMatcher::cost_regeneration_analyze() const
+{
+    const auto& cost_regeneration_task_ptr = Task.get<MatchTaskInfo>("CostRegenerationBar");
+    BrightPointAnalyzer analyzer(m_image);
+    analyzer.set_roi(cost_regeneration_task_ptr->roi);
+    if (!analyzer.analyze()) {
+        return 0;
+    }
+    return static_cast<double>(analyzer.get_result().size()) / cost_regeneration_task_ptr->special_params[0];
 }
 
 bool BattlefieldMatcher::pause_button_analyze() const

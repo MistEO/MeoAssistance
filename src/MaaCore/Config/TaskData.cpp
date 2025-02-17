@@ -66,6 +66,113 @@ asst::TaskPtr asst::TaskData::get(std::string_view name)
     }
 }
 
+#define ASST_TASK_DEBUG
+#ifdef ASST_TASK_DEBUG
+
+struct TaskInfoSerializer
+{
+    json::value operator()(const asst::TaskPtr& task) const
+    {
+        return serialize(*task);
+    }
+
+    json::value serialize(const asst::TaskInfo& task) const
+    {
+        json::value json;
+        json["name"] = task.name;
+        json["algorithm"] = enum_to_string(task.algorithm);
+        json["action"] = enum_to_string(task.action);
+        json["cache"] = task.cache;
+        json["maxTimes"] = task.max_times;
+        json["preDelay"] = task.pre_delay;
+        json["postDelay"] = task.post_delay;
+        json["roi"] = serialize(task.roi);
+        json["subErrorIgnored"] = task.sub_error_ignored;
+        json["rectMove"] = serialize(task.rect_move);
+        json["specificRect"] = serialize(task.specific_rect);
+        json["specialParams"] = task.special_params;
+        json["next"] = serialize(task.next);
+        json["sub"] = serialize(task.sub);
+        json["exceededNext"] = serialize(task.exceeded_next);
+        json["onErrorNext"] = serialize(task.on_error_next);
+        json["reduceOtherTimes"] = serialize(task.reduce_other_times);
+
+        if (task.algorithm == asst::AlgorithmType::MatchTemplate) {
+            auto match_task = dynamic_cast<const asst::MatchTaskInfo*>(&task);
+            json["maskRange"] = serialize(match_task->mask_range);
+            json["templThreshold"] = match_task->templ_thresholds;
+            json["template"] = match_task->templ_names;
+        }
+        else if (task.algorithm == asst::AlgorithmType::OcrDetect) {
+            auto ocr_task = dynamic_cast<const asst::OcrTaskInfo*>(&task);
+            json["fullMatch"] = ocr_task->full_match;
+            json["isAscii"] = ocr_task->is_ascii;
+            json["withoutDet"] = ocr_task->without_det;
+            json["replaceFull"] = ocr_task->replace_full;
+            json["ocrReplace"] = serialize(ocr_task->replace_map);
+            json["text"] = ocr_task->text;
+        }
+
+        return json;
+    }
+
+    json::array serialize(const std::vector<asst::MatchTaskInfo::Range>& vec) const
+    {
+        json::array json;
+        for (const auto& range : vec) {
+            json.push_back(json::array { serialize(range.first), serialize(range.second) });
+        }
+        return json;
+    }
+
+    json::array serialize(const std::vector<int>& vec) const
+    {
+        json::array json;
+        for (const auto& i : vec) {
+            json.push_back(i);
+        }
+        return json;
+    }
+
+    json::array serialize(const std::vector<std::pair<std::string, std::string>>& vec) const
+    {
+        json::array json;
+        for (const auto& [first, second] : vec) {
+            json.push_back(json::array { first, second });
+        }
+        return json;
+    }
+
+    json::array serialize(const std::pair<int, int>& pair) const
+    {
+        json::array json;
+        json.push_back(pair.first);
+        json.push_back(pair.second);
+        return json;
+    }
+
+    json::array serialize(const asst::Rect& rect) const
+    {
+        json::array json;
+        json.push_back(rect.x);
+        json.push_back(rect.y);
+        json.push_back(rect.width);
+        json.push_back(rect.height);
+        return json;
+    }
+
+    json::array serialize(const asst::TaskList& task_list) const
+    {
+        json::array json;
+        for (const auto& task : task_list) {
+            json.push_back(task);
+        }
+        return json;
+    }
+};
+
+#endif
+
 bool asst::TaskData::lazy_parse(const json::value& json)
 {
     LogTraceFunction;
@@ -215,6 +322,18 @@ bool asst::TaskData::lazy_parse(const json::value& json)
     }
 #endif
 
+#ifdef ASST_TASK_DEBUG
+    auto cpp_task_json = json::value {};
+    for (std::string_view name : m_json_all_tasks_info | views::keys) {
+        auto task_json = json::serialize(Task.get(name), TaskInfoSerializer{});
+        cpp_task_json[std::string(name)] = task_json;
+    }
+    std::cout << "TaskData done" << std::endl;
+    // save to file
+    std::ofstream ofs("cpp_task.json");
+    ofs << cpp_task_json;
+    ofs.close();
+#endif
     return true;
 }
 

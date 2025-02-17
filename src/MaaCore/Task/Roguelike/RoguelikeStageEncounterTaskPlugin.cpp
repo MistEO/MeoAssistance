@@ -39,7 +39,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     std::unordered_map<std::string, Config::RoguelikeEvent> event_map = RoguelikeStageEncounter.get_events(theme, mode);
     std::vector<std::string> event_names = RoguelikeStageEncounter.get_event_names(theme);
 
-    const auto event_name_task_ptr = Task.get("Roguelike@StageEncounterOcr");
+    const auto event_name_task_ptr = Task.get(theme + "@" + "Roguelike@StageEncounterOcr");
     sleep(event_name_task_ptr->pre_delay);
 
     if (need_exit()) {

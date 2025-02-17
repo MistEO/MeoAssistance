@@ -8,6 +8,8 @@ maa_debug=${MAA_DEBUG:-0}
 pushd ${basedir}
 
 build_arch() {
+    // remove previous artifacts
+    rm -rf build-$1
     [[ $1 = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
 
     python3 maadeps-download.py ${triplet}
